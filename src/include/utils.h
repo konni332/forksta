@@ -7,6 +7,15 @@
 #include <stdint.h>
 #include "metrics.h"
 
+#define DEFAULT_TIMEOUT_MS 3000
+#define VERSION "1.0.0"
+#define ANSI_RESET   "\x1b[0m"
+#define ANSI_BOLD    "\x1b[1m"
+#define ANSI_CYAN    "\x1b[36m"
+#define ANSI_GREEN   "\x1b[32m"
+#define ANSI_YELLOW  "\x1b[33m"
+#define ANSI_RED     "\x1b[31m"
+
 typedef struct {
     int help;
     int version;

@@ -152,9 +152,9 @@ int main(int argc, char *argv[]) {
     }
 
     if (valid_runs < cfg.runs) {
-        fprintf(stderr, "Warning: %d runs failed!\n\n", (cfg.runs - valid_runs));
+        fprintf(stderr, ANSI_YELLOW "Warning: %d runs failed!\n\n" ANSI_RESET, (cfg.runs - valid_runs));
     } else {
-        printf("All runs finished successfully\n\n");
+        printf(ANSI_GREEN "All runs finished successfully\n\n" ANSI_RESET);
     }
 
     // calculate means

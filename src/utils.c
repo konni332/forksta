@@ -5,11 +5,7 @@
 #include "utils.h"
 #include <string.h>
 #include <stdio.h>
-
 #include "metrics.h"
-
-
-#define DEFAULT_TIMEOUT_MS 3000
 
 
 int check_target_cmd(char **target_cmd, int argc) {
@@ -229,27 +225,37 @@ void print_progress_bar(int current, int total) {
     fflush(stdout);
 }
 
-#define ANSI_RESET   "\x1b[0m"
-#define ANSI_BOLD    "\x1b[1m"
-#define ANSI_CYAN    "\x1b[36m"
-#define ANSI_GREEN   "\x1b[32m"
-#define ANSI_YELLOW  "\x1b[33m"
+// int color_enabled();
+//
+// #define COLOR_IF(x) (color_enabled() ? x : "")
+// #define ANSI_RESET   COLOR_IF("\x1b[0m")
+// #define ANSI_BOLD    COLOR_IF("\x1b[1m")
+// #define ANSI_CYAN    COLOR_IF("\x1b[36m")
+// #define ANSI_GREEN   COLOR_IF("\x1b[32m")
+// #define ANSI_YELLOW  COLOR_IF("\x1b[33m")
+//
+// int color_enabled() {
+//     return isatty(STDOUT_FILENO);
+// }
+//
+
+
+
 
 void print_version() {
-    printf(ANSI_BOLD ANSI_GREEN "forksta" ANSI_RESET " version " ANSI_CYAN "1.0.0\n" ANSI_RESET);
-    printf(ANSI_YELLOW "© 2025 Your Name. All rights reserved.\n" ANSI_RESET);
+    printf(ANSI_BOLD ANSI_GREEN "forksta" ANSI_RESET " version " ANSI_CYAN VERSION"\n" ANSI_RESET);
+    printf(ANSI_YELLOW "© 2025 konni332. All rights reserved.\n" ANSI_RESET);
 }
-
 
 void print_help() {
     printf(ANSI_BOLD ANSI_GREEN "Usage: " ANSI_RESET "forksta [options] <program> [args...]\n\n");
 
     printf(ANSI_BOLD "Options:\n" ANSI_RESET);
-    printf(ANSI_CYAN "  -r            " ANSI_RESET "Show real time\n");
+    printf(ANSI_CYAN "  -r            " ANSI_RESET "Show real time (default)\n");
     printf(ANSI_CYAN "  -c            " ANSI_RESET "Show CPU user/sys time\n");
     printf(ANSI_CYAN "  -m            " ANSI_RESET "Show max RSS (memory usage)\n");
     printf(ANSI_CYAN "  -e            " ANSI_RESET "Show exit code\n");
-    printf(ANSI_CYAN "  -a            " ANSI_RESET "Show all metrics (default)\n");
+    printf(ANSI_CYAN "  -a            " ANSI_RESET "Show all metrics\n");
     printf(ANSI_CYAN "  --runs N      " ANSI_RESET "Run the program N times (default: 1)\n");
     printf(ANSI_CYAN "  --timeout SEC " ANSI_RESET "Kill the program after SEC seconds\n");
     printf(ANSI_CYAN "  --timeout-m M " ANSI_RESET "Kill the program after M minutes\n");
@@ -263,5 +269,6 @@ void print_help() {
 
     printf(ANSI_YELLOW "Forksta – lightweight benchmarking for real programs.\n" ANSI_RESET);
 }
+
 
 

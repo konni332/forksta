@@ -7,7 +7,7 @@
 #include "utils.h"
 #include <inttypes.h>
 
-int dump_csv(config_t cfg, BenchmarkResult result, BenchmarkRun *runs, int num_runs) {
+int dump_csv(config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int num_runs) {
     FILE *file = fopen("benchmark_results.csv", "w");
     if (!file) {
         perror("fopen");
@@ -62,7 +62,7 @@ int dump_csv(config_t cfg, BenchmarkResult result, BenchmarkRun *runs, int num_r
 }
 
 
-int dump_json(config_t cfg, BenchmarkResult result, BenchmarkRun *runs, int num_runs) {
+int dump_json(config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int num_runs) {
     FILE *file = fopen("benchmark_results.json", "w");
     if (!file) {
         perror("fopen");
