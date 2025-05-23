@@ -18,7 +18,9 @@ typedef struct BenchmarkStats {
     double mean;
     double median;
     double min;
+    int min_run;
     double max;
+    int max_run;
     double stddev;
 } BenchmarkStats;
 
@@ -33,5 +35,9 @@ typedef struct BenchmarkResult {
 void init_stats(BenchmarkStats *stats);
 
 double get_median(double *values, int count);
+
+double calculate_stddev(const double *values, const int count, const double mean);
+
+double calculate_cv_percent(const double stddev, const double mean);
 
 #endif //METRICS_H

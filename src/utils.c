@@ -9,7 +9,7 @@
 #include "metrics.h"
 
 
-#define DEFAULT_TIMEOUT_MS 10000
+#define DEFAULT_TIMEOUT_MS 3000
 
 
 int check_target_cmd(char **target_cmd, int argc) {
@@ -166,19 +166,35 @@ void print_benchmark_result(BenchmarkResult result, config_t cfg) {
     if (cfg.show_realtime || cfg.show_all) {
         printf("    real time mean: %f\n", result.real_time_stats.mean);
         printf("    real time median: %f\n", result.real_time_stats.median);
+        double cv_rt = (result.real_time_stats.stddev / result.real_time_stats.mean) * 100.0;
+        printf("    real time standard deviation: %.8f -> cv ~ %.6f%%\n", result.real_time_stats.stddev, cv_rt);
+        printf("    real time max: %f -> run %d\n", result.real_time_stats.max, result.real_time_stats.max_run);
+        printf("    real time min: %f -> run %d\n", result.real_time_stats.min, result.real_time_stats.min_run);
         printf("----\n");
     }
     if (cfg.show_cpu_times || cfg.show_all) {
-        printf("    user time mean: %f\n", result.user_time_stats.mean);
-        printf("    user time median: %f\n", result.user_time_stats.median);
+        printf("    user time mean: %.4f\n", result.user_time_stats.mean);
+        printf("    user time median: %.4f\n", result.user_time_stats.median);
+        double cv_us = (result.user_time_stats.stddev / result.user_time_stats.mean) * 100.0;
+        printf("    user time standard deviation: %.8f -> cv ~ %.6f%%\n", result.user_time_stats.stddev, cv_us);
+        printf("    user time max: %.4f -> run %d\n", result.user_time_stats.max, result.user_time_stats.max_run);
+        printf("    user time min: %.4f -> run %d\n", result.user_time_stats.min, result.user_time_stats.min_run);
         printf("----\n");
-        printf("    sys time mean: %f\n", result.sys_time_stats.mean);
-        printf("    sys time median: %f\n", result.sys_time_stats.median);
+        printf("    sys time mean: %.4f\n", result.sys_time_stats.mean);
+        printf("    sys time median: %.4f\n", result.sys_time_stats.median);
+        double cv_sys = (result.sys_time_stats.stddev / result.sys_time_stats.mean) * 100.0;
+        printf("    sys time standard deviation: %.8f -> cv ~ %.6f%%\n", result.sys_time_stats.stddev, cv_sys);
+        printf("    sys time max: %.4f -> run %d\n", result.sys_time_stats.max, result.sys_time_stats.max_run);
+        printf("    sys time min: %.4f -> run %d\n", result.sys_time_stats.min, result.sys_time_stats.min_run);
         printf("----\n");
     }
     if (cfg.show_max_rss || cfg.show_all) {
         printf("    max rss mean: %0.f\n", result.max_rss_stats.mean);
         printf("    max rss median: %0.f\n", result.max_rss_stats.median);
+        double cv_rss = (result.max_rss_stats.stddev / result.max_rss_stats.mean) * 100.0;
+        printf("    max rss standard deviation: %.2f -> cv ~ %.6f%%\n", result.max_rss_stats.stddev, cv_rss);
+        printf("    max rss max: %0.f -> run %d\n", result.max_rss_stats.max, result.max_rss_stats.max_run);
+        printf("    max rss min: %0.f -> run %d\n", result.max_rss_stats.min, result.max_rss_stats.min_run);
         printf("----\n");
     }
     if (cfg.show_exit_code || cfg.show_all) {

@@ -32,16 +32,16 @@ int main(int argc, char *argv[]) {
     }
 
     // allocate medians
-    double *median_realtime = malloc(sizeof(double) * cfg.runs);
-    double *median_sys_time = malloc(sizeof(double) * cfg.runs);
-    double *median_user_time = malloc(sizeof(double) * cfg.runs);
-    double *median_max_rss = malloc(sizeof(double) * cfg.runs);
+    double *runs_realtime = malloc(sizeof(double) * cfg.runs);
+    double *runs_sys_time = malloc(sizeof(double) * cfg.runs);
+    double *runs_user_time = malloc(sizeof(double) * cfg.runs);
+    double *runs_max_rss = malloc(sizeof(double) * cfg.runs);
 
     int ran = 1;
     int num_fails = 0;
+    int valid_runs = 0;
 
     for (int i = 0; i < cfg.runs; ++i) {
-
         ran = run_target(cfg.target_cmd, &run_result, cfg.timeout_ms);
         if (ran != 0) {
             fprintf(stderr, "Error in run %d\n", i + 1);
@@ -52,13 +52,50 @@ int main(int argc, char *argv[]) {
             continue;
         }
         if (run_result.exit_code != 0) {
-            fprintf(stderr, "Error in run %d with exit code: %d\n", i, run_result.exit_code);
+            fprintf(stderr, "Error in run %d with exit code: %d\n", i + 1, run_result.exit_code);
             num_fails++;
             if (num_fails > 10) {
                 goto cleanup;
             }
             continue;
         }
+
+        // calculate min
+        if (valid_runs == 0 || run_result.real_time < stats_realtime.min) {
+            stats_realtime.min = run_result.real_time;
+            stats_realtime.min_run = i + 1;
+        }
+        if (valid_runs == 0 || run_result.sys_time < stats_sys_time.min) {
+            stats_sys_time.min = run_result.sys_time;
+            stats_sys_time.min_run = i + 1;
+        }
+        if (valid_runs == 0 || run_result.user_time < stats_user_time.min) {
+            stats_user_time.min = run_result.user_time;
+            stats_user_time.min_run = i + 1;
+        }
+        if (valid_runs == 0 || run_result.max_rss < stats_max_rss.min) {
+            stats_max_rss.min = run_result.max_rss;
+            stats_max_rss.min_run = i + 1;
+        }
+
+        // calculate max
+        if (valid_runs == 0 || run_result.real_time > stats_realtime.max) {
+            stats_realtime.max = run_result.real_time;
+            stats_realtime.max_run = i + 1;
+        }
+        if (valid_runs == 0 || run_result.sys_time > stats_sys_time.max) {
+            stats_sys_time.max = run_result.sys_time;
+            stats_sys_time.max_run = i + 1;
+        }
+        if (valid_runs == 0 || run_result.user_time > stats_user_time.max) {
+            stats_user_time.max = run_result.user_time;
+            stats_user_time.max_run = i + 1;
+        }
+        if (valid_runs == 0 || run_result.max_rss > stats_max_rss.max) {
+            stats_max_rss.max = run_result.max_rss;
+            stats_max_rss.max_run = i + 1;
+        }
+
 
         // calculate means
         stats_realtime.mean += run_result.real_time;
@@ -67,28 +104,48 @@ int main(int argc, char *argv[]) {
         stats_max_rss.mean += run_result.max_rss;
 
         // calculate medians
-        median_realtime[i] = run_result.real_time;
-        median_sys_time[i] = run_result.sys_time;
-        median_user_time[i] = run_result.user_time;
-        median_max_rss[i] = run_result.max_rss;
+        runs_realtime[i] = run_result.real_time;
+        runs_sys_time[i] = run_result.sys_time;
+        runs_user_time[i] = run_result.user_time;
+        runs_max_rss[i] = run_result.max_rss;
 
         // Print run
-        printf("Run %d:\n", i + 1);
+        if (run_result.exit_code == 0) {
+            valid_runs++;
+        }
+        else if ((i - valid_runs) < 50) printf("Run %d: finished with exit code %d\n", i + 1, run_result.exit_code);
+    }
+    printf("\n");
+    printf("\n");
+
+    if (valid_runs == 0) {
+        fprintf(stderr, "Error: No valid runs\n\n");
+        goto cleanup;
     }
 
+    if (valid_runs < cfg.runs) {
+        fprintf(stderr, "Warning: %d runs failed!\n\n", (cfg.runs - valid_runs));
+    } else {
+        printf("All runs finished successfully\n\n");
+    }
 
-    const int valid_runs = cfg.runs - num_fails;
     // calculate means
     stats_realtime.mean /= valid_runs;
     stats_sys_time.mean /= valid_runs;
     stats_user_time.mean /= valid_runs;
     stats_max_rss.mean /= valid_runs;
 
+    // calculate stddev
+    stats_realtime.stddev = calculate_stddev(runs_realtime, valid_runs, stats_realtime.mean);
+    stats_sys_time.stddev = calculate_stddev(runs_sys_time, valid_runs, stats_sys_time.mean);
+    stats_user_time.stddev = calculate_stddev(runs_user_time, valid_runs, stats_user_time.mean);
+    stats_max_rss.stddev = calculate_stddev(runs_max_rss, valid_runs, stats_max_rss.mean);
+
     // calculate medians
-    stats_realtime.median = get_median(median_realtime, valid_runs);
-    stats_sys_time.median = get_median(median_sys_time, valid_runs);
-    stats_user_time.median = get_median(median_user_time, valid_runs);
-    stats_max_rss.median = get_median(median_max_rss, valid_runs);
+    stats_realtime.median = get_median(runs_realtime, valid_runs);
+    stats_sys_time.median = get_median(runs_sys_time, valid_runs);
+    stats_user_time.median = get_median(runs_user_time, valid_runs);
+    stats_max_rss.median = get_median(runs_max_rss, valid_runs);
 
     // set final stats
     BenchmarkResult result;
@@ -102,10 +159,10 @@ int main(int argc, char *argv[]) {
 
 cleanup:
     // free
-    if (median_realtime) free(median_realtime);
-    if (median_sys_time) free(median_sys_time);
-    if (median_user_time) free(median_user_time);
-    if (median_max_rss) free(median_max_rss);
+    if (runs_realtime) free(runs_realtime);
+    if (runs_sys_time) free(runs_sys_time);
+    if (runs_user_time) free(runs_user_time);
+    if (runs_max_rss) free(runs_max_rss);
 
     return ran == 0 ? 0 : 1;
 }

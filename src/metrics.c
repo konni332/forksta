@@ -2,13 +2,17 @@
 // Created by doepp on 23.05.2025.
 //
 #include "metrics.h"
+
+#include <math.h>
 #include <stdlib.h>
 
 void init_stats(BenchmarkStats *stats) {
     stats->mean = 0;
     stats->median = 0;
     stats->min = 0;
+    stats->min_run = -1;
     stats->max = 0;
+    stats->max_run = -1;
     stats->stddev = 0;
 }
 
@@ -32,3 +36,18 @@ double get_median(double *values, int count) {
     return values[count / 2];
 }
 
+
+double calculate_stddev(const double *values, const int count, const double mean) {
+    if (count <= 1) return 0.0;
+    double sum = 0.0;
+    for (int i = 0; i < count; i++) {
+        double diff = values[i] - mean;
+        sum += diff * diff;
+    }
+
+    return sqrt(sum / (count - 1));
+}
+
+double calculate_cv_percent(const double stddev, const double mean) {
+    return (stddev / mean) * 100.0;
+}
