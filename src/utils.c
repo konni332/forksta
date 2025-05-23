@@ -1,6 +1,3 @@
-//
-// Created by doepp on 23.05.2025.
-//
 #include <stdlib.h>
 #include "utils.h"
 #include <string.h>
@@ -121,6 +118,16 @@ void parse_args(int argc, char **argv, config_t *cfg) {
         } else if (strcmp(argv[i], "--version") == 0) {
             cfg->version = 1;
             break;
+        } else if (strcmp(argv[i], "-py") == 0) {
+            if (i + 1 >= argc || strstr(argv[i + 1], ".py") == NULL) {
+                fprintf(stderr, "Missing python file\n");
+                exit(1);
+            }
+            argv[i] = "python3";
+            cfg->target = argv[i]; // Programm
+            cfg->target_cmd = &argv[i]; // Programm with arguments
+            cfg->target_args_count = argc - i;
+            return;
         }
 
         else {
@@ -225,29 +232,11 @@ void print_progress_bar(int current, int total) {
     fflush(stdout);
 }
 
-// int color_enabled();
-//
-// #define COLOR_IF(x) (color_enabled() ? x : "")
-// #define ANSI_RESET   COLOR_IF("\x1b[0m")
-// #define ANSI_BOLD    COLOR_IF("\x1b[1m")
-// #define ANSI_CYAN    COLOR_IF("\x1b[36m")
-// #define ANSI_GREEN   COLOR_IF("\x1b[32m")
-// #define ANSI_YELLOW  COLOR_IF("\x1b[33m")
-//
-// int color_enabled() {
-//     return isatty(STDOUT_FILENO);
-// }
-//
-
-
-
-
 void print_version() {
     printf(ANSI_BOLD ANSI_GREEN "forksta" ANSI_RESET " version " ANSI_CYAN VERSION "\n" ANSI_RESET);
     printf(ANSI_YELLOW "© 2025 konni332. Licensed under the MIT License.\n" ANSI_RESET);
     printf(ANSI_YELLOW "See https://opensource.org/licenses/MIT for details.\n" ANSI_RESET);
 }
-
 
 void print_help() {
     printf(ANSI_BOLD ANSI_GREEN "Usage: " ANSI_RESET "forksta [options] <program> [args...]\n\n");
@@ -258,6 +247,7 @@ void print_help() {
     printf(ANSI_CYAN "  -m            " ANSI_RESET "Show max RSS (memory usage)\n");
     printf(ANSI_CYAN "  -e            " ANSI_RESET "Show exit code\n");
     printf(ANSI_CYAN "  -a            " ANSI_RESET "Show all metrics\n");
+    printf(ANSI_CYAN "  -py           " ANSI_RESET "Specifies a .py programm. Adds neccessary python3 argument\n");
     printf(ANSI_CYAN "  --runs N      " ANSI_RESET "Run the program N times (default: 1)\n");
     printf(ANSI_CYAN "  --timeout SEC " ANSI_RESET "Kill the program after SEC seconds\n");
     printf(ANSI_CYAN "  --timeout-m M " ANSI_RESET "Kill the program after M minutes\n");
