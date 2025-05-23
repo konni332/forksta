@@ -5,6 +5,17 @@
 #include "metrics.h"
 #include "utils.h"
 
+
+
+#ifdef _WIN32
+    #include <windows.h>
+    #define SLEEP_MS(ms) Sleep(ms)
+#else
+    #include <unistd.h>
+    #define SLEEP_MS(ms) usleep((ms) * 1000)
+#endif
+
+
 int main(int argc, char *argv[]) {
     config_t cfg;
     BenchmarkRun run_result;
@@ -41,7 +52,11 @@ int main(int argc, char *argv[]) {
     int num_fails = 0;
     int valid_runs = 0;
 
+    printf("Running %d times\n", cfg.runs);
+    printf("Target: %s\n\n", cfg.target);
+
     for (int i = 0; i < cfg.runs; ++i) {
+        print_progress_bar(i, cfg.runs);
         ran = run_target(cfg.target_cmd, &run_result, cfg.timeout_ms);
         if (ran != 0) {
             fprintf(stderr, "Error in run %d\n", i + 1);
@@ -115,6 +130,7 @@ int main(int argc, char *argv[]) {
         }
         else if ((i - valid_runs) < 50) printf("Run %d: finished with exit code %d\n", i + 1, run_result.exit_code);
     }
+    print_progress_bar(cfg.runs, cfg.runs);
     printf("\n");
     printf("\n");
 

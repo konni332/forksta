@@ -203,3 +203,19 @@ void print_benchmark_result(BenchmarkResult result, config_t cfg) {
     }
 }
 
+void print_progress_bar(int current, int total) {
+    const int bar_width = 30;
+    float progress = (float) current / total;
+    int filled = (int) (progress * bar_width);
+    printf("\rRunning: [");
+    for (int i = 0; i < bar_width; i++) {
+        if (i < filled) {
+            printf("#");
+        } else {
+            printf("-");
+        }
+    }
+    printf("] %3d%%", (int) (progress * 100));
+    fflush(stdout);
+}
+

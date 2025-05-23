@@ -27,4 +27,5 @@ int check_target_cmd(char **target_cmd, int argc);
 uint64_t seconds_to_ms(char *seconds);
 uint64_t minutes_to_ms(char *minutes);
 void print_benchmark_result(BenchmarkResult result, config_t cfg);
+void print_progress_bar(int current, int total);
 #endif //UTILS_H
