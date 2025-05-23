@@ -229,11 +229,39 @@ void print_progress_bar(int current, int total) {
     fflush(stdout);
 }
 
-void print_version(void) {
-    printf("forksta v0.1.0\n");
+#define ANSI_RESET   "\x1b[0m"
+#define ANSI_BOLD    "\x1b[1m"
+#define ANSI_CYAN    "\x1b[36m"
+#define ANSI_GREEN   "\x1b[32m"
+#define ANSI_YELLOW  "\x1b[33m"
+
+void print_version() {
+    printf(ANSI_BOLD ANSI_GREEN "forksta" ANSI_RESET " version " ANSI_CYAN "1.0.0\n" ANSI_RESET);
+    printf(ANSI_YELLOW "© 2025 Your Name. All rights reserved.\n" ANSI_RESET);
 }
 
-void print_help(void) {
-    printf("help");
+
+void print_help() {
+    printf(ANSI_BOLD ANSI_GREEN "Usage: " ANSI_RESET "forksta [options] <program> [args...]\n\n");
+
+    printf(ANSI_BOLD "Options:\n" ANSI_RESET);
+    printf(ANSI_CYAN "  -r            " ANSI_RESET "Show real time\n");
+    printf(ANSI_CYAN "  -c            " ANSI_RESET "Show CPU user/sys time\n");
+    printf(ANSI_CYAN "  -m            " ANSI_RESET "Show max RSS (memory usage)\n");
+    printf(ANSI_CYAN "  -e            " ANSI_RESET "Show exit code\n");
+    printf(ANSI_CYAN "  -a            " ANSI_RESET "Show all metrics (default)\n");
+    printf(ANSI_CYAN "  --runs N      " ANSI_RESET "Run the program N times (default: 1)\n");
+    printf(ANSI_CYAN "  --timeout SEC " ANSI_RESET "Kill the program after SEC seconds\n");
+    printf(ANSI_CYAN "  --timeout-m M " ANSI_RESET "Kill the program after M minutes\n");
+    printf(ANSI_CYAN "  --dump csv    " ANSI_RESET "Dump results to benchmark_results.csv\n");
+    printf(ANSI_CYAN "  --dump json   " ANSI_RESET "Dump results to benchmark_results.json\n");
+    printf(ANSI_CYAN "  --help        " ANSI_RESET "Show this help message and exit\n");
+    printf(ANSI_CYAN "  --version     " ANSI_RESET "Show version and exit\n");
+
+    printf("\n" ANSI_BOLD "Example:\n" ANSI_RESET);
+    printf("  forksta -a --runs 5 ./my_program arg1 arg2\n\n");
+
+    printf(ANSI_YELLOW "Forksta – lightweight benchmarking for real programs.\n" ANSI_RESET);
 }
+
 
