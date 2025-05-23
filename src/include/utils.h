@@ -5,6 +5,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 #include <stdint.h>
+#include "metrics.h"
 
 typedef struct {
     int show_realtime;
@@ -25,4 +26,5 @@ void parse_args(int argc, char **argv, config_t *cfg);
 int check_target_cmd(char **target_cmd, int argc);
 uint64_t seconds_to_ms(char *seconds);
 uint64_t minutes_to_ms(char *minutes);
+void print_benchmark_result(BenchmarkResult result, config_t cfg);
 #endif //UTILS_H

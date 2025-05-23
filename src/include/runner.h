@@ -4,17 +4,10 @@
 
 #ifndef RUNNER_H
 #define RUNNER_H
-#include <stddef.h>
 #include <stdint.h>
+#include "metrics.h"
 
-typedef struct BenchmarkResult {
-    double real_time;
-    double sys_time;
-    double user_time;
-    size_t max_rss;
-    int exit_code;
-} BenchmarkResult;
 
-int run_target(char **argv, BenchmarkResult *result, uint64_t timeout_ms);
+int run_target(char **argv, BenchmarkRun *result, uint64_t timeout_ms);
 
 #endif //RUNNER_H

@@ -6,6 +6,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "metrics.h"
+
 
 #define DEFAULT_TIMEOUT_MS 10000
 
@@ -156,5 +158,32 @@ uint64_t minutes_to_ms(char *minutes) {
         exit(1);
     }
     return val * 60 * 1000;
+}
+
+void print_benchmark_result(BenchmarkResult result, config_t cfg) {
+    printf("Final results:\n");
+    printf("----\n");
+    if (cfg.show_realtime || cfg.show_all) {
+        printf("    real time mean: %f\n", result.real_time_stats.mean);
+        printf("    real time median: %f\n", result.real_time_stats.median);
+        printf("----\n");
+    }
+    if (cfg.show_cpu_times || cfg.show_all) {
+        printf("    user time mean: %f\n", result.user_time_stats.mean);
+        printf("    user time median: %f\n", result.user_time_stats.median);
+        printf("----\n");
+        printf("    sys time mean: %f\n", result.sys_time_stats.mean);
+        printf("    sys time median: %f\n", result.sys_time_stats.median);
+        printf("----\n");
+    }
+    if (cfg.show_max_rss || cfg.show_all) {
+        printf("    max rss mean: %0.f\n", result.max_rss_stats.mean);
+        printf("    max rss median: %0.f\n", result.max_rss_stats.median);
+        printf("----\n");
+    }
+    if (cfg.show_exit_code || cfg.show_all) {
+        printf("    most recent exit code: %d\n", result.exit_code);
+        printf("----\n");
+    }
 }
 

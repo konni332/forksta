@@ -13,8 +13,8 @@
 #include <psapi.h>
 #include <stdint.h>
 
-int run_target(char **argv, BenchmarkResult *result, uint64_t timeout_ms) {
-    if (!argv || !result) {
+int run_target(char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
+    if (!argv || !run_result) {
         fprintf(stderr, "Invalid arguments in run_target\n");
         return -1;
     }
@@ -44,7 +44,7 @@ int run_target(char **argv, BenchmarkResult *result, uint64_t timeout_ms) {
     if (wait_result == WAIT_TIMEOUT) {
         TerminateProcess(pi.hProcess, 1);
         fprintf(stderr, "Timeout: killed target: %d after: %llums\n", pi.dwProcessId, timeout_ms);
-        result->exit_code = -1;
+        run_result->exit_code = -1;
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
         return -1;
@@ -56,7 +56,7 @@ int run_target(char **argv, BenchmarkResult *result, uint64_t timeout_ms) {
     QueryPerformanceCounter(&end);
 
     // calculate real time
-    result->real_time = (double) (end.QuadPart - start.QuadPart) / (double) freq.QuadPart;
+    run_result->real_time = (double) (end.QuadPart - start.QuadPart) / (double) freq.QuadPart;
 
     // calculate cpu times
     FILETIME creation_time, exit_time, kernel_time, user_time;
@@ -68,23 +68,23 @@ int run_target(char **argv, BenchmarkResult *result, uint64_t timeout_ms) {
         u.HighPart = user_time.dwHighDateTime;
 
         // 100-nanoseconds to seconds
-        result->sys_time = (double) k.QuadPart * 1e-7;
-        result->user_time = (double) u.QuadPart * 1e-7;
+        run_result->sys_time = (double) k.QuadPart * 1e-7;
+        run_result->user_time = (double) u.QuadPart * 1e-7;
     } else {
-        result->sys_time = 0;
-        result->user_time = 0;
+        run_result->sys_time = 0;
+        run_result->user_time = 0;
     }
 
     // RAM peak in bytes
     PROCESS_MEMORY_COUNTERS pmc;
     if (GetProcessMemoryInfo(pi.hProcess, &pmc, sizeof(pmc))) {
-        result->max_rss = pmc.PeakWorkingSetSize / 1024;
+        run_result->max_rss = pmc.PeakWorkingSetSize / 1024;
     } else {
-        result->max_rss = 0;
+        run_result->max_rss = 0;
     }
 
     // EXIT code
-    result->exit_code = (int)exit_code;
+    run_result->exit_code = (int)exit_code;
 
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
