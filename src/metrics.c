@@ -2,7 +2,6 @@
 // Created by doepp on 23.05.2025.
 //
 #include "metrics.h"
-
 #include <math.h>
 #include <stdlib.h>
 

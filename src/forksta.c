@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "logger.h"
 #include "runner.h"
 #include "metrics.h"
 #include "utils.h"
@@ -28,12 +29,22 @@ int main(int argc, char *argv[]) {
     init_stats(&stats_user_time);
     init_stats(&stats_max_rss);
 
-
-
     parse_args(argc, argv, &cfg);
     if (cfg.target == NULL) {
         fprintf(stderr, "Error in target command: NULL\n");
         return -1;
+    }
+
+    BenchmarkRun runs[cfg.runs];
+
+    if (cfg.help == 1) {
+        print_help();
+        return 0;
+    }
+
+    if (cfg.version == 1) {
+        print_version();
+        return 0;
     }
 
     // check target command for validity
@@ -129,6 +140,7 @@ int main(int argc, char *argv[]) {
             valid_runs++;
         }
         else if ((i - valid_runs) < 50) printf("Run %d: finished with exit code %d\n", i + 1, run_result.exit_code);
+        runs[i] = run_result;
     }
     print_progress_bar(cfg.runs, cfg.runs);
     printf("\n");
@@ -172,6 +184,19 @@ int main(int argc, char *argv[]) {
     result.exit_code = ran;
 
     print_benchmark_result(result, cfg);
+
+    if (cfg.dump_csv) {
+        if (dump_csv(cfg, result, runs, valid_runs) != 0) {
+            fprintf(stderr, "Error in dump_csv\n");
+            goto cleanup;
+        }
+    }
+    if (cfg.dump_json) {
+        if (dump_json(cfg, result, runs, valid_runs) != 0) {
+            fprintf(stderr, "Error in dump_json\n");
+            goto cleanup;
+        }
+    }
 
 cleanup:
     // free

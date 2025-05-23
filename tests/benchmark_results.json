@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "target": "sort_bench.exe",
+    "args": ["sort_bench.exe", "bubble", "5000"],
+    "runs": 20,
+    "timeout_ms": 3000
+  },
+  "run_1": {
+    "real_time": 0.029729,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_2": {
+    "real_time": 0.029147,
+    "sys_time": 0.000000,
+    "user_time": 0.031250,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_3": {
+    "real_time": 0.027396,
+    "sys_time": 0.000000,
+    "user_time": 0.031250,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_4": {
+    "real_time": 0.026713,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_5": {
+    "real_time": 0.026390,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 3560,
+    "exit_code": 0
+  },
+  "run_6": {
+    "real_time": 0.028382,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 3552,
+    "exit_code": 0
+  },
+  "run_7": {
+    "real_time": 0.028152,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 3560,
+    "exit_code": 0
+  },
+  "run_8": {
+    "real_time": 0.027627,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 3552,
+    "exit_code": 0
+  },
+  "run_9": {
+    "real_time": 0.029598,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_10": {
+    "real_time": 0.029135,
+    "sys_time": 0.000000,
+    "user_time": 0.031250,
+    "max_rss": 3560,
+    "exit_code": 0
+  },
+  "run_11": {
+    "real_time": 0.030903,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_12": {
+    "real_time": 0.030658,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 3560,
+    "exit_code": 0
+  },
+  "run_13": {
+    "real_time": 0.026800,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 3560,
+    "exit_code": 0
+  },
+  "run_14": {
+    "real_time": 0.027903,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_15": {
+    "real_time": 0.027544,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_16": {
+    "real_time": 0.026537,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 3552,
+    "exit_code": 0
+  },
+  "run_17": {
+    "real_time": 0.026494,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_18": {
+    "real_time": 0.027736,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_19": {
+    "real_time": 0.026897,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "run_20": {
+    "real_time": 0.026191,
+    "sys_time": 0.000000,
+    "user_time": 0.031250,
+    "max_rss": 3556,
+    "exit_code": 0
+  },
+  "results": {
+    "real_time": {
+      "mean": 0.027997,
+      "median": 0.027682,
+      "min": 0.026191,
+      "min_run": 20,
+      "max": 0.030903,
+      "max_run": 11,
+      "stddev": 0.001436
+    },
+    "sys_time": {
+      "mean": 0.011719,
+      "median": 0.015625,
+      "min": 0.000000,
+      "min_run": 2,
+      "max": 0.031250,
+      "max_run": 1,
+      "stddev": 0.009979
+    },
+    "user_time": {
+      "mean": 0.012500,
+      "median": 0.015625,
+      "min": 0.000000,
+      "min_run": 1,
+      "max": 0.031250,
+      "max_run": 2,
+      "stddev": 0.011996
+    },
+    "max_rss": {
+      "mean": 3556.400000,
+      "median": 3556.000000,
+      "min": 3552.000000,
+      "min_run": 6,
+      "max": 3560.000000,
+      "max_run": 5,
+      "stddev": 2.562893
+    },
+    "exit_code": 0
+  }
+}

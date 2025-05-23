@@ -35,6 +35,8 @@ void parse_args(int argc, char **argv, config_t *cfg) {
     }
 
     // Default Werte
+    cfg->help = 0;
+    cfg->version = 0;
     cfg->show_realtime = 1;
     cfg->show_cpu_times = 0;
     cfg->show_max_rss = 0;
@@ -117,7 +119,15 @@ void parse_args(int argc, char **argv, config_t *cfg) {
                 fprintf(stderr, "Missing timeout\n");
                 exit(1);
             }
-        } else {
+        } else if (strcmp(argv[i], "--help") == 0) {
+            cfg->help = 1;
+            break;
+        } else if (strcmp(argv[i], "--version") == 0) {
+            cfg->version = 1;
+            break;
+        }
+
+        else {
             fprintf(stderr, "Unknown option: %s\n", argv[i]);
             exit(1);
         }
@@ -217,5 +227,13 @@ void print_progress_bar(int current, int total) {
     }
     printf("] %3d%%", (int) (progress * 100));
     fflush(stdout);
+}
+
+void print_version(void) {
+    printf("forksta v0.1.0\n");
+}
+
+void print_help(void) {
+    printf("help");
 }
 

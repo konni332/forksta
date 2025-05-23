@@ -8,6 +8,8 @@
 #include "metrics.h"
 
 typedef struct {
+    int help;
+    int version;
     int show_realtime;
     int show_cpu_times;
     int show_max_rss;
@@ -28,4 +30,6 @@ uint64_t seconds_to_ms(char *seconds);
 uint64_t minutes_to_ms(char *minutes);
 void print_benchmark_result(BenchmarkResult result, config_t cfg);
 void print_progress_bar(int current, int total);
+void print_help(void);
+void print_version(void);
 #endif //UTILS_H
