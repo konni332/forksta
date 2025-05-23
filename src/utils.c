@@ -1,0 +1,160 @@
+//
+// Created by doepp on 23.05.2025.
+//
+#include <stdlib.h>
+#include "utils.h"
+#include <string.h>
+#include <stdio.h>
+
+
+#define DEFAULT_TIMEOUT_MS 10000
+
+
+int check_target_cmd(char **target_cmd, int argc) {
+    if (target_cmd == NULL || target_cmd[0] == NULL) {
+        return -1;
+    }
+
+    int j = 0;
+    while (target_cmd[j] != NULL) {
+        j++;
+        if (j > (argc)) {
+            fprintf(stderr, "Error: target_cmd array not NULL-terminated\n");
+            return -1;
+        }
+    }
+    return 0;
+}
+
+void parse_args(int argc, char **argv, config_t *cfg) {
+    if (argc < 2) {
+        fprintf(stderr, "Missing target\n");
+        exit(1);
+    }
+
+    // Default Werte
+    cfg->show_realtime = 1;
+    cfg->show_cpu_times = 0;
+    cfg->show_max_rss = 0;
+    cfg->show_exit_code = 0;
+    cfg->show_all = 0;
+    cfg->runs = 1;
+    cfg->dump_csv = 0;
+    cfg->dump_json = 0;
+    cfg->target = NULL;
+    cfg->target_cmd = NULL;
+    cfg->target_args_count = 0;
+    cfg->timeout_ms = DEFAULT_TIMEOUT_MS;
+
+    int i = 1;
+    // Optionen parsen
+    for (; i < argc; i++) {
+        if (argv[i][0] != '-') {
+            // break when a no flag item is found!
+            break;
+        }
+
+        // Flags auswerten
+        if (strcmp(argv[i], "-r") == 0) {
+            cfg->show_realtime = 1;
+            cfg->show_all = 0;
+        } else if (strcmp(argv[i], "-c") == 0) {
+            cfg->show_cpu_times = 1;
+            cfg->show_all = 0;
+        } else if (strcmp(argv[i], "-m") == 0) {
+            cfg->show_max_rss = 1;
+            cfg->show_all = 0;
+        } else if (strcmp(argv[i], "-e") == 0) {
+            cfg->show_exit_code = 1;
+            cfg->show_all = 0;
+        } else if (strcmp(argv[i], "-a") == 0) {
+            cfg->show_all = 1;
+            cfg->show_realtime = 0;
+            cfg->show_cpu_times = 0;
+            cfg->show_max_rss = 0;
+            cfg->show_exit_code = 0;
+        } else if (strncmp(argv[i], "--dump", 6) == 0) {
+            if (i + 1 < argc) {
+                if (strcmp(argv[i + 1], "csv") == 0) {
+                    cfg->dump_csv = 1;
+                    i++;
+                } else if (strcmp(argv[i + 1], "json") == 0) {
+                    cfg->dump_json = 1;
+                    i++;
+                } else {
+                    fprintf(stderr, "Invalid dump format: %s\n", argv[i + 1]);
+                    exit(1);
+                }
+            } else {
+                fprintf(stderr, "Missing dump format\n");
+                exit(1);
+            }
+        } else if (strcmp(argv[i], "--runs") == 0) {
+            if (i + 1 < argc) {
+                cfg->runs = atoi(argv[i + 1]);
+                if (cfg->runs < 1) cfg->runs = 1;
+                i++;
+            } else {
+                fprintf(stderr, "Missing number of runs\n");
+                exit(1);
+            }
+        } else if (strcmp(argv[i], "--timeout") == 0) {
+            if (i + 1 < argc) {
+                cfg->timeout_ms = seconds_to_ms(argv[i + 1]);
+                i++;
+            } else {
+                fprintf(stderr, "Missing timeout\n");
+                exit(1);
+            }
+        }
+        else if (strcmp(argv[i], "--timeout-m") == 0) {
+            if (i + 1 < argc) {
+                cfg->timeout_ms = minutes_to_ms(argv[i + 1]);
+                i++;
+            } else {
+                fprintf(stderr, "Missing timeout\n");
+                exit(1);
+            }
+        } else {
+            fprintf(stderr, "Unknown option: %s\n", argv[i]);
+            exit(1);
+        }
+    }
+
+    if (i >= argc) {
+        fprintf(stderr, "Missing target program\n");
+        exit(1);
+    }
+    cfg->target = argv[i]; // Programm
+    cfg->target_cmd = &argv[i]; // Programm with arguments
+    cfg->target_args_count = argc - i;
+}
+
+uint64_t seconds_to_ms(char *seconds) {
+    if (!seconds) {
+        fprintf(stderr, "Invalid seconds value: %s\n", seconds);
+        exit(1);
+    }
+    char *endptr;
+    const uint64_t val = strtol(seconds, &endptr, 10);
+    if (*endptr != '\0') {
+        fprintf(stderr, "Invalid seconds value: %s\n", seconds);
+        exit(1);
+    }
+    return val * 1000;
+}
+
+uint64_t minutes_to_ms(char *minutes) {
+    if (!minutes) {
+        fprintf(stderr, "Invalid minutes value: %s\n", minutes);
+        exit(1);
+    }
+    char *endptr;
+    const uint64_t val = strtol(minutes, &endptr, 10);
+    if (*endptr != '\0') {
+        fprintf(stderr, "Invalid minutes value: %s\n", minutes);
+        exit(1);
+    }
+    return val * 60 * 1000;
+}
+
