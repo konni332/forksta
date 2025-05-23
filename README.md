@@ -9,11 +9,12 @@ It has no external dependencies and is easy to use.
 
 ## Features
 
+- Benchmark native executables and .py files
 - Measure real (wall-clock) time  
 - Capture CPU user and system time  
 - Track maximum resident set size (memory usage)  
 - Report program exit code  
-- Run multiple iterations to average results  
+- Run multiple iterations to average results (incld. mean, median, min, max, stddev, cv%)  
 - Timeout support (in seconds or minutes)  
 - Export results as CSV or JSON files  
 - Cross-platform (POSIX & Windows)  
@@ -37,20 +38,25 @@ forksta [options] <program> [args...]
 
 ### Options
 
-| Option         | Description                                     |
-|----------------|------------------------------------------------|
-| `-r`           | Show real time (default)                        |
-| `-c`           | Show CPU user and system time                   |
-| `-m`           | Show max RSS (memory usage)                     |
-| `-e`           | Show exit code                                  |
-| `-a`           | Show all metrics                                |
-| `--runs N`     | Run the program N times (default: 1)           |
-| `--timeout SEC`| Kill the program after SEC seconds              |
-| `--timeout-m M`| Kill the program after M minutes                |
-| `--dump csv`   | Dump results to `benchmark_results.csv`        |
-| `--dump json`  | Dump results to `benchmark_results.json`       |
-| `--help`       | Show this help message and exit                 |
-| `--version`    | Show version info and exit                       |
+| Option                                                        |  Desciption                                                               |
+|---------------------------------------------------------------|---------------------------------------------------------------------------|
+| -r                                                            | Show real time                                                            |
+| -c                                                            | Show CPU user and system time                                             |
+| -m                                                            | Show max RSS (memory usage)                                               |
+| -e                                                            | Show exit code                                                            |
+| -a                                                            | Show all metrics (default)                                                |
+| -py                                                           | Indicate running .py file: -py example.py. No pyhton3 argument neccessary |
+| --runs N                                                      | Run the program N times (default: 1)                                      |
+| --tiemout SEC                                                 | Kill the program after SEC seconds                                        |
+| --timeout-m M                                                 | Kill the program after M minutes                                          |
+| --dump csv                                                    | Dump results to `benchmark_results.csv`                                   |
+| --dump json                                                   | Dump results to `benchmark_results.json`                                  |
+| --compare <program1 [args1]> --with <program2 [args2]> {wip!} | Benchmark 2 programs and compare the specified metrics                    |
+| --compare-json <filename1> --with <filename2> {wip!}          | Compare specified metrics of 2 .json files                                |
+| --compare-csv <filename1> --with <filename2> {wip!}           | Compare specified metrics of 2 .csv files                                 |
+| --compare-from <program [args]> --to-json <filename> {wip!}   | Benchmark a program and compare specified metrics to existing .json file  |
+| --compare-from <program [args]> --to-csv <filename> {wip!}    | Benchmark a program and compare specified metrics to existing .csv file   |
+
 
 ---
 
