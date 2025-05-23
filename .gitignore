@@ -1,0 +1,30 @@
+# === CLion / CMake ===
+.idea/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+compile_commands.json
+*.cbp
+*.user
+*.workspace
+*.depend
+*.layout
+
+# === Build & Binaries ===
+*.o
+*.obj
+*.so
+*.a
+*.out
+*.exe
+*.log
+
+# === System Files ===
+.DS_Store
+Thumbs.db
+
+# === Test directory ===
+test/*
+!test/.gitkeep
