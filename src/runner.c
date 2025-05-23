@@ -98,7 +98,7 @@ int run_target(char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
 #include <sys/wait.h>
 #include <time.h>
 
-int run_target(char **argv, BenchmarkResult *result, time_t timeout_ms) {
+int run_target(char **argv, BenchmarkRun *result, uint64_t timeout_ms) {
     if (!argv || !result) {
         fprintf(stderr, "Invalid arguments in run_target\n");
         return -1;
@@ -108,44 +108,46 @@ int run_target(char **argv, BenchmarkResult *result, time_t timeout_ms) {
     clock_gettime(CLOCK_MONOTONIC, &start);
 
     struct rusage usage;
-    int status;
-
+    int status = 0;
     pid_t pid = fork();
-    if (pid == -1) {
+
+    if (pid < 0) {
         perror("fork failed");
         return -1;
     }
 
     if (pid == 0) {
+        // child
         execvp(argv[0], argv);
         perror("execvp failed");
         exit(1);
     }
 
     // Timeout loop
-    const int interval_ms = 10;
-    time_t elapsed_ms = 0;
+    const useconds_t interval_us = 10 * 1000; // 10 ms
+    uint64_t waited_ms = 0;
+
     while (1) {
-        pid_t result_pid = waitpid(pid, &status, WNOHANG);
-        if (result_pid == -1) {
+        pid_t done = waitpid(pid, &status, WNOHANG);
+        if (done == -1) {
             perror("waitpid failed");
             return -1;
-        } else if (result_pid > 0) {
-            // Process exited
-            break;
+        } else if (done > 0) {
+            break; // process exited
         }
 
-        usleep(interval_ms * 1000); // sleep for interval
-        elapsed_ms += interval_ms;
+        usleep(interval_us);
+        waited_ms += 10;
 
-        if (elapsed_ms >= timeout_ms) {
-            fprintf(stderr, "Timeout: killed target %d after %llu ms\n", pid, (unsigned long long)timeout_ms);
+        if (waited_ms >= timeout_ms) {
+            fprintf(stderr, "Timeout: killed target %d after %llums\n", pid, (unsigned long long)timeout_ms);
             kill(pid, SIGKILL);
-            waitpid(pid, &status, 0);  // ensure cleanup
+            waitpid(pid, &status, 0);
             result->exit_code = -1;
-            result->real_time = (double)elapsed_ms / 1000.0;
-            result->sys_time = 0;
+            clock_gettime(CLOCK_MONOTONIC, &end);
+            result->real_time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
             result->user_time = 0;
+            result->sys_time = 0;
             result->max_rss = 0;
             return -1;
         }
@@ -157,11 +159,12 @@ int run_target(char **argv, BenchmarkResult *result, time_t timeout_ms) {
     result->real_time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
     result->user_time = usage.ru_utime.tv_sec + usage.ru_utime.tv_usec / 1e6;
     result->sys_time = usage.ru_stime.tv_sec + usage.ru_stime.tv_usec / 1e6;
-    result->max_rss = usage.ru_maxrss;
+    result->max_rss = usage.ru_maxrss; // already in KB on Linux
     result->exit_code = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
 
     return 0;
 }
+
 
 
 #endif
