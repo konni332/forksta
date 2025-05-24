@@ -40,7 +40,6 @@ char** cpy_cmd_line(const char** cmd, int args_count) {
     return cmd_line;
 }
 
-
 int check_target_cmd(char **target_cmd, int argc) {
     if (target_cmd == NULL || target_cmd[0] == NULL) {
         return -1;
@@ -85,12 +84,22 @@ void parse_comparison(int start, int argc, char **argv, config_t *cfg) {
     }
 
     // Erstes Programm (target)
-    cfg->target = portable_strndup(argv[start], strlen(argv[start]));
+    if (strcmp(argv[start], "python3") == 0) {
+        cfg->target = portable_strndup(argv[start + 1], strlen(argv[start + 1]));
+    }
+    else {
+        cfg->target = portable_strndup(argv[start], strlen(argv[start]));
+    }
     cfg->target_cmd = cpy_cmd_line(&argv[start], with_index - start);
     cfg->target_args_count = with_index - start;
 
     // Zweites Programm (comparison)
-    cfg->comparison = portable_strndup(argv[with_index + 1], strlen(argv[with_index + 1]));
+    if (strcmp(argv[start], "python3") == 0) {
+        cfg->comparison = portable_strndup(argv[start + 1], strlen(argv[start + 1]));
+    }
+    else {
+        cfg->comparison = portable_strndup(argv[start], strlen(argv[start]));
+    }
     cfg->comparison_cmd = cpy_cmd_line(&argv[with_index + 1], argc - (with_index + 1));
     cfg->comparison_args_count = argc - (with_index + 1);
 }
@@ -202,7 +211,7 @@ void parse_args(int argc, char **argv, config_t *cfg) {
                 exit(1);
             }
             argv[i] = "python3";
-            cfg->target = portable_strndup(argv[i], strlen(argv[i])); // Programm
+            cfg->target = portable_strndup(argv[i + 1], strlen(argv[i + 1])); // Programm
             cfg->target_cmd = cpy_cmd_line(&argv[i], argc - i); // Programm with arguments
             cfg->target_args_count = argc - i;
             return;

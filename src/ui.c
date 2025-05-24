@@ -1,10 +1,10 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include "utils.h"
 #include "ui.h"
+
 void print_cv_result(const double cv) {
     if (isnan(cv)) {
         printf(ANSI_YELLOW "undefined (NaN)\n" ANSI_RESET);
