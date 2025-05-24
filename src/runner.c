@@ -104,6 +104,12 @@ cleanup:
     return bm.ran == 0 ? 0 : 1;
 }
 
+void print_error_below(const char *msg) {
+    printf("\n\033[K");
+    printf("Error: %s\n", msg);
+    printf("\033[F");
+}
+
 int run_comparison(config_t cfg) {
     Benchmark target_bm;
     Benchmark comparison_bm;
@@ -119,6 +125,16 @@ int run_comparison(config_t cfg) {
 
     if (check_target_cmd(cfg.comparison_cmd, cfg.comparison_args_count) != 0) {
         fprintf(stderr, "Error in comparison command\n");
+        goto cleanup;
+    }
+
+    if (!target_exists(cfg.target)) {
+        fprintf(stderr, "Error: Target does not exist\n");
+        goto cleanup;
+    }
+
+    if (!target_exists(cfg.comparison)) {
+        fprintf(stderr, "Error: Comparison does not exist\n");
         goto cleanup;
     }
 
@@ -193,6 +209,9 @@ cleanup:
 #define STATS_REALTIME bm->result.real_time_stats
 #define RUNS bm->runs_array
 #define C_RUN bm->runs_array[i]
+#define MAX_FAILS 5
+
+
 
 int run_loop(config_t cfg, Benchmark *bm, const char *target, const char **target_cmd) {
     printf("Running %d times\n", cfg.runs);
@@ -201,15 +220,19 @@ int run_loop(config_t cfg, Benchmark *bm, const char *target, const char **targe
         print_progress_bar(i, cfg.runs);
         bm->ran = run_target(target_cmd, &bm->runs_array[i], cfg.timeout_ms);
         if (bm->ran != 0) {
-            fprintf(stderr, "Error in run %d\n", i + 1);
+            char msg[512];
+            snprintf(msg, 512, "Error in run %d\n", i + 1);
+            print_error_below(msg);
             bm->num_fails++;
-            if (bm->num_fails > 10) {
+            if (bm->num_fails >= MAX_FAILS) {
                 goto cleanup;
             }
             continue;
         }
         if (C_RUN.exit_code != 0) {
-            fprintf(stderr, "Error in run %d with exit code: %d\n", i + 1, C_RUN.exit_code);
+            char msg[512];
+            snprintf(msg, 512, "Error in run %d with exit code: %d\n", i + 1, C_RUN.exit_code);
+            print_error_below(msg);
             bm->num_fails++;
             if (bm->num_fails > 10) {
                 goto cleanup;
@@ -269,7 +292,6 @@ int run_loop(config_t cfg, Benchmark *bm, const char *target, const char **targe
         if (C_RUN.exit_code == 0) {
             bm->valid_runs++;
         }
-        else if ((i - bm->valid_runs) < 50) printf("Run %d: finished with exit code %d\n", i + 1, C_RUN.exit_code);
     }
     print_progress_bar(cfg.runs, cfg.runs);
     printf("\n");
@@ -283,7 +305,7 @@ cleanup:
 #include <windows.h>
 #include <psapi.h>
 #include <stdint.h>
-int run_target(char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
+int run_target(const char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
     if (!argv || !run_result) {
         fprintf(stderr, "Invalid arguments in run_target\n");
         return -1;
@@ -313,7 +335,9 @@ int run_target(char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
     DWORD wait_result = WaitForSingleObject(pi.hProcess, timeout_ms);
     if (wait_result == WAIT_TIMEOUT) {
         TerminateProcess(pi.hProcess, 1);
-        fprintf(stderr, "Timeout: killed target: %d after: %llums\n", pi.dwProcessId, timeout_ms);
+        char msg[512];
+        snprintf(msg, 512, ANSI_RED "Timeout: killed target: %d after: %llums\n" ANSI_RESET, pi.dwProcessId, timeout_ms);
+        print_error_below(msg);
         run_result->exit_code = -1;
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
@@ -409,7 +433,9 @@ int run_target(char **argv, BenchmarkRun *result, uint64_t timeout_ms) {
         waited_ms += 10;
 
         if (waited_ms >= timeout_ms) {
-            fprintf(stderr, "Timeout: killed target %d after %llums\n", pid, (unsigned long long)timeout_ms);
+            char msg[512];
+            snprintf(msg, ANSI_RED "Timeout: killed target %d after %llums\n" ANSI_RESET, pid, (unsigned long long)timeout_ms);
+            print_error_below(msg);
             kill(pid, SIGKILL);
             waitpid(pid, &status, 0);
             result->exit_code = -1;

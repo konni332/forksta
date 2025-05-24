@@ -338,3 +338,12 @@ char *generate_filename(char *buffer, size_t size, const char *suffix, Benchmark
     snprintf(buffer, size, "benchmark_0x%03x%s", rand_num, suffix);
     return buffer;
 }
+
+int target_exists(char *target) {
+    FILE *fp = fopen(target, "r");
+    if (fp == NULL) {
+        return 0;
+    }
+    fclose(fp);
+    return 1;
+}
