@@ -85,7 +85,7 @@ void print_progress_bar(int current, int total) {
 void print_version() {
     printf(ANSI_BOLD ANSI_GREEN "forksta" ANSI_RESET " version " ANSI_CYAN VERSION "\n" ANSI_RESET);
     printf(ANSI_YELLOW "© 2025 konni332. Licensed under the MIT License.\n" ANSI_RESET);
-    printf(ANSI_YELLOW "See https://opensource.org/licenses/MIT for details.\n" ANSI_RESET);
+    printf(ANSI_YELLOW "See https://opensource.org/license/mit for details.\n" ANSI_RESET);
 }
 
 void print_help() {

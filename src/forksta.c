@@ -19,6 +19,9 @@
 
 int main(int argc, char *argv[]) {
     config_t cfg;
+    init_config(&cfg);
     parse_args(argc, argv, &cfg);
-    return run(cfg);
+    const int rc = run(cfg);
+    destroy_config(&cfg);
+    return rc;
 }

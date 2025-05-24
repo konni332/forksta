@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "ui.h"
 
 
 #define DECLARE_BENCHMARK_RUN(prefix) BenchmarkRun prefix##run_result;
@@ -59,6 +59,11 @@ int run_single_benchmark(config_t cfg) {
     // allocate runs arrays
     init_benchmark(&bm, cfg.runs);
 
+    if (check_target_cmd(cfg.target_cmd, cfg.target_args_count) != 0) {
+        fprintf(stderr, "Error in target command\n");
+        goto cleanup;
+    }
+
     run_loop(cfg, &bm, cfg.target, cfg.target_cmd);
 
     if (bm.valid_runs <= 0) {
@@ -93,13 +98,22 @@ cleanup:
     return bm.ran == 0 ? 0 : 1;
 }
 
-
 int run_comparison(config_t cfg) {
     Benchmark target_bm;
     Benchmark comparison_bm;
     // allocate runs arrays
     init_benchmark(&target_bm, cfg.runs);
     init_benchmark(&comparison_bm, cfg.runs);
+
+    if (check_target_cmd(cfg.target_cmd, cfg.target_args_count) != 0) {
+        fprintf(stderr, "Error in target command\n");
+        goto cleanup;
+    }
+
+    if (check_target_cmd(cfg.comparison_cmd, cfg.comparison_args_count) != 0) {
+        fprintf(stderr, "Error in comparison command\n");
+        goto cleanup;
+    }
 
     run_loop(cfg, &target_bm, cfg.target, cfg.target_cmd);
     run_loop(cfg, &comparison_bm, cfg.comparison, cfg.comparison_cmd);
@@ -223,7 +237,7 @@ int run_loop(config_t cfg, Benchmark *bm, const char *target, const char **targe
     printf("\n");
 
 cleanup:
-    return 1;
+    return bm->ran == 0 ? 0 : 1;
 }
 
 #ifdef _WIN32 // Windows

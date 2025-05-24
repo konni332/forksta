@@ -24,7 +24,6 @@ typedef struct config_t {
     int runs;
     int dump_csv;
     int dump_json;
-    int print_final;
     char *target;
     char **target_cmd;
     int target_args_count;
@@ -33,6 +32,8 @@ typedef struct config_t {
     char **comparison_cmd;
     int comparison_args_count;
 } config_t;
+void init_config(config_t *cfg);
+void destroy_config(config_t *cfg);
 
 void parse_args(int argc, char **argv, config_t *cfg);
 int check_target_cmd(char **target_cmd, int argc);

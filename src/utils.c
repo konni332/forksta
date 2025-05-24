@@ -5,6 +5,41 @@
 #include <stdio.h>
 #include "metrics.h"
 
+char* portable_strndup(const char* s, size_t n) {
+    if (!s) return NULL;
+
+    size_t len = strnlen(s, n);
+    char* result = (char*)malloc(len + 1);
+    if (!result) return NULL;
+
+    memcpy(result, s, len);
+    result[len] = '\0';
+
+    return result;
+}
+
+char** cpy_cmd_line(const char** cmd, int args_count) {
+    char** cmd_line = (char**)malloc(sizeof(char*) * (args_count + 1));
+    if (cmd_line == NULL) {
+        fprintf(stderr, "Error in cpy_cmd_line\n");
+        exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < args_count; i++) {
+        cmd_line[i] = portable_strndup(cmd[i], strlen(cmd[i]));
+        if (!cmd_line[i]) {
+            // Fehlerbehandlung: bisherigen Speicher freigeben
+            for (int j = 0; j < i; j++) free(cmd_line[j]);
+            free(cmd_line);
+            fprintf(stderr, "Memory allocation failed in cpy_cmd_line\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    cmd_line[args_count] = NULL; // NULL-terminieren
+    return cmd_line;
+}
+
 
 int check_target_cmd(char **target_cmd, int argc) {
     if (target_cmd == NULL || target_cmd[0] == NULL) {
@@ -50,40 +85,21 @@ void parse_comparison(int start, int argc, char **argv, config_t *cfg) {
     }
 
     // Erstes Programm (target)
-    cfg->target = argv[start];
-    cfg->target_cmd = &argv[start];
+    cfg->target = portable_strndup(argv[start], strlen(argv[start]));
+    cfg->target_cmd = cpy_cmd_line(&argv[start], with_index - start);
     cfg->target_args_count = with_index - start;
 
     // Zweites Programm (comparison)
-    cfg->comparison = argv[with_index + 1];
-    cfg->comparison_cmd = &argv[with_index + 1];
+    cfg->comparison = portable_strndup(argv[with_index + 1], strlen(argv[with_index + 1]));
+    cfg->comparison_cmd = cpy_cmd_line(&argv[with_index + 1], argc - (with_index + 1));
     cfg->comparison_args_count = argc - (with_index + 1);
 }
-
 
 void parse_args(int argc, char **argv, config_t *cfg) {
     if (argc < 2) {
         fprintf(stderr, "Missing target\n");
         exit(1);
     }
-
-    // Default Werte
-    cfg->help = 0;
-    cfg->version = 0;
-    cfg->show_realtime = 1;
-    cfg->show_cpu_times = 0;
-    cfg->show_max_rss = 0;
-    cfg->show_exit_code = 0;
-    cfg->show_all = 0;
-    cfg->runs = 1;
-    cfg->dump_csv = 0;
-    cfg->dump_json = 0;
-    cfg->print_final = 0;
-    cfg->target = NULL;
-    cfg->target_cmd = NULL;
-    cfg->target_args_count = 0;
-    cfg->timeout_ms = DEFAULT_TIMEOUT_MS;
-    cfg->comparison = NULL;
 
     int i = 1;
     // Optionen parsen
@@ -186,8 +202,8 @@ void parse_args(int argc, char **argv, config_t *cfg) {
                 exit(1);
             }
             argv[i] = "python3";
-            cfg->target = argv[i]; // Programm
-            cfg->target_cmd = &argv[i]; // Programm with arguments
+            cfg->target = portable_strndup(argv[i], strlen(argv[i])); // Programm
+            cfg->target_cmd = cpy_cmd_line(&argv[i], argc - i); // Programm with arguments
             cfg->target_args_count = argc - i;
             return;
         }
@@ -210,9 +226,45 @@ void parse_args(int argc, char **argv, config_t *cfg) {
         fprintf(stderr, "Missing target program\n");
         exit(1);
     }
-    cfg->target = argv[i]; // Programm
-    cfg->target_cmd = &argv[i]; // Programm with arguments
+    cfg->target = portable_strndup(argv[i], strlen(argv[i])); // Programm
+    cfg->target_cmd = cpy_cmd_line(&argv[i], argc - i); // Programm with arguments
     cfg->target_args_count = argc - i;
+}
+
+void free_cmd_line(char **cmd_line) {
+    if (!cmd_line) return;
+    for (int i = 0; cmd_line[i] != NULL; i++) {
+        free(cmd_line[i]);
+    }
+    free(cmd_line);
+}
+
+void destroy_config(config_t *cfg) {
+    if (!cfg) return;
+    if (cfg->target) free(cfg->target);
+    if (cfg->comparison) free(cfg->comparison);
+    free_cmd_line(cfg->target_cmd);
+    free_cmd_line(cfg->comparison_cmd);
+}
+
+void init_config(config_t *cfg) {
+    if (!cfg) return;
+    // Default Werte
+    cfg->help = 0;
+    cfg->version = 0;
+    cfg->show_realtime = 1;
+    cfg->show_cpu_times = 0;
+    cfg->show_max_rss = 0;
+    cfg->show_exit_code = 0;
+    cfg->show_all = 0;
+    cfg->runs = 1;
+    cfg->dump_csv = 0;
+    cfg->dump_json = 0;
+    cfg->target = NULL;
+    cfg->target_cmd = NULL;
+    cfg->target_args_count = 0;
+    cfg->timeout_ms = DEFAULT_TIMEOUT_MS;
+    cfg->comparison = NULL;
 }
 
 uint64_t seconds_to_ms(char *seconds) {
