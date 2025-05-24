@@ -38,13 +38,13 @@ forksta [options] <program> [args...]
 
 ### Options
 
-| Option                                                        |  Desciption                                                               |
+| Option                                                        | Desciption                                                                |
 |---------------------------------------------------------------|---------------------------------------------------------------------------|
-| -r                                                            | Show real time                                                            |
+| -r                                                            | Show real time (default)                                                  |
 | -c                                                            | Show CPU user and system time                                             |
 | -m                                                            | Show max RSS (memory usage)                                               |
 | -e                                                            | Show exit code                                                            |
-| -a                                                            | Show all metrics (default)                                                |
+| -a                                                            | Show all metrics                                                          |
 | -py                                                           | Indicate running .py file: -py example.py. No pyhton3 argument neccessary |
 | --runs N                                                      | Run the program N times (default: 1)                                      |
 | --tiemout SEC                                                 | Kill the program after SEC seconds                                        |

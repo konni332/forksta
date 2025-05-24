@@ -25,11 +25,6 @@ init_stats(&prefix##stats_sys_time); \
 init_stats(&prefix##stats_user_time); \
 init_stats(&prefix##stats_max_rss);
 
-#ifdef _WIN32 // Windows
-#include <windows.h>
-#include <psapi.h>
-#include <stdint.h>
-
 int run(config_t cfg) {
     if (cfg.help) {
         print_help();
@@ -231,6 +226,10 @@ cleanup:
     return 1;
 }
 
+#ifdef _WIN32 // Windows
+#include <windows.h>
+#include <psapi.h>
+#include <stdint.h>
 int run_target(char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
     if (!argv || !run_result) {
         fprintf(stderr, "Invalid arguments in run_target\n");
@@ -309,7 +308,6 @@ int run_target(char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
 
     return 0;
 }
-
 #else // POSIX (macOS/Linux)
 #include <sys/resource.h>
 #include <unistd.h>
