@@ -7,19 +7,18 @@
 #include "utils.h"
 #include <inttypes.h>
 
-int dump_csv(config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int num_runs) {
-    FILE *file = fopen("benchmark_results.csv", "w");
+
+int dump_csv(const char *filename, config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int num_runs) {
+    FILE *file = fopen(filename, "w");
     if (!file) {
         perror("fopen");
         return -1;
     }
 
-    // Header-Zeile
     fprintf(file,
         "run,real_time,sys_time,user_time,max_rss,exit_code\n"
     );
 
-    // Daten jeder Benchmark-Ausführung
     for (int i = 0; i < num_runs; i++) {
         fprintf(file, "%d,%.6f,%.6f,%.6f,%.0f,%d\n",
             i + 1,
@@ -31,10 +30,8 @@ int dump_csv(config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int
         );
     }
 
-    // Leere Zeile als Trenner
     fprintf(file, "\n");
 
-    // Statistik-Zeile(n)
     fprintf(file, "statistic,mean,median,min,min_run,max,max_run,stddev\n");
 
     #define WRITE_STATS_ROW(label, stats) \
@@ -54,7 +51,6 @@ int dump_csv(config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int
     WRITE_STATS_ROW("user_time", result.user_time_stats);
     WRITE_STATS_ROW("max_rss", result.max_rss_stats);
 
-    // Exit-Code Gesamt
     fprintf(file, "\nsummary_exit_code,%d\n", result.exit_code);
 
     fclose(file);
@@ -62,8 +58,8 @@ int dump_csv(config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int
 }
 
 
-int dump_json(config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int num_runs) {
-    FILE *file = fopen("benchmark_results.json", "w");
+int dump_json(const char *filename, config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int num_runs) {
+    FILE *file = fopen(filename, "w");
     if (!file) {
         perror("fopen");
         return -1;

@@ -80,17 +80,23 @@ int run_single_benchmark(config_t cfg) {
     calculate_stats(&bm);
 
     if (cfg.dump_csv) {
-        if (dump_csv(cfg, bm.result, bm.runs_array, bm.valid_runs) != 0) {
+        char filename[1024];
+        generate_filename(filename, 1024, ".csv", &bm);
+        if (dump_csv(filename, cfg, bm.result, bm.runs_array, bm.valid_runs) != 0) {
             fprintf(stderr, "Error in dump_csv\n");
             goto cleanup;
         }
     }
+
     if (cfg.dump_json) {
-        if (dump_json(cfg, bm.result, bm.runs_array, bm.valid_runs) != 0) {
+        char filename[1024];
+        generate_filename(filename, 1024, ".json", &bm);
+        if (dump_json(filename, cfg, bm.result, bm.runs_array, bm.valid_runs) != 0) {
             fprintf(stderr, "Error in dump_json\n");
             goto cleanup;
         }
     }
+
     print_benchmark_result(bm.result, cfg);
 
 cleanup:
@@ -101,6 +107,7 @@ cleanup:
 int run_comparison(config_t cfg) {
     Benchmark target_bm;
     Benchmark comparison_bm;
+
     // allocate runs arrays
     init_benchmark(&target_bm, cfg.runs);
     init_benchmark(&comparison_bm, cfg.runs);
@@ -142,6 +149,36 @@ int run_comparison(config_t cfg) {
         printf(ANSI_GREEN "All comparison runs finished successfully\n\n" ANSI_RESET);
     }
 
+    if (cfg.dump_csv) {
+        char target_filename[1024];
+        char comparison_filename[1024];
+        generate_filename(target_filename, 1024, ".csv", &target_bm);
+        generate_filename(comparison_filename, 1024, ".csv", &comparison_bm);
+        if (dump_csv(target_filename, cfg, target_bm.result, target_bm.runs_array, target_bm.valid_runs) != 0) {
+            fprintf(stderr, "Error in dump_csv\n");
+            goto cleanup;
+        }
+        if (dump_csv(comparison_filename, cfg, comparison_bm.result, comparison_bm.runs_array, comparison_bm.valid_runs) != 0) {
+            fprintf(stderr, "Error in dump_csv\n");
+            goto cleanup;
+        }
+    }
+
+    if (cfg.dump_json) {
+        char target_filename[1024];
+        char comparison_filename[1024];
+        generate_filename(target_filename, 1024, ".json", &target_bm);
+        generate_filename(comparison_filename, 1024, ".json", &comparison_bm);
+        if (dump_json(target_filename, cfg, target_bm.result, target_bm.runs_array, target_bm.valid_runs) != 0) {
+            fprintf(stderr, "Error in dump_json\n");
+            goto cleanup;
+        }
+        if (dump_json(comparison_filename, cfg, comparison_bm.result, comparison_bm.runs_array, comparison_bm.valid_runs) != 0) {
+            fprintf(stderr, "Error in dump_json\n");
+            goto cleanup;
+        }
+    }
+
     print_comparison_result(target_bm.result, comparison_bm.result, cfg);
 
 cleanup:
@@ -158,7 +195,6 @@ cleanup:
 #define C_RUN bm->runs_array[i]
 
 int run_loop(config_t cfg, Benchmark *bm, const char *target, const char **target_cmd) {
-
     printf("Running %d times\n", cfg.runs);
     printf("Target: %s\n", target);
     for (int i = 0; i < cfg.runs; ++i) {

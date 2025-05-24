@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
-#include "metrics.h"
+#include <time.h>
 
 char* portable_strndup(const char* s, size_t n) {
     if (!s) return NULL;
@@ -263,8 +263,10 @@ void init_config(config_t *cfg) {
     cfg->target = NULL;
     cfg->target_cmd = NULL;
     cfg->target_args_count = 0;
-    cfg->timeout_ms = DEFAULT_TIMEOUT_MS;
     cfg->comparison = NULL;
+    cfg->comparison_cmd = NULL;
+    cfg->comparison_args_count = 0;
+    cfg->timeout_ms = DEFAULT_TIMEOUT_MS;
 }
 
 uint64_t seconds_to_ms(char *seconds) {
@@ -293,4 +295,32 @@ uint64_t minutes_to_ms(char *minutes) {
         exit(1);
     }
     return val * 60 * 1000;
+}
+
+void seed_rng_once() {
+    static int seeded = 0;
+    if (!seeded) {
+        srand(time(NULL));
+        seeded = 1;
+    }
+}
+
+char *generate_filename(char *buffer, size_t size, const char *suffix, Benchmark *bm) {
+    seed_rng_once();
+    if (!buffer || !bm) {
+        fprintf(stderr, "Invalid arguments\n");
+        exit(1);
+    }
+    if (size < 1) {
+        fprintf(stderr, "Invalid size\n");
+        exit(1);
+    }
+    if (!suffix) {
+        fprintf(stderr, "Invalid suffix\n");
+        exit(1);
+    }
+    int rand_num = rand() % 0xFFFF;
+
+    snprintf(buffer, size, "benchmark_0x%03x%s", rand_num, suffix);
+    return buffer;
 }

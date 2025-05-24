@@ -39,5 +39,6 @@ void parse_args(int argc, char **argv, config_t *cfg);
 int check_target_cmd(char **target_cmd, int argc);
 uint64_t seconds_to_ms(char *seconds);
 uint64_t minutes_to_ms(char *minutes);
+char *generate_filename(char *buffer, size_t size, const char *suffix, Benchmark *bm);
 
 #endif //UTILS_H

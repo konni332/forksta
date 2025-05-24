@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "target": "sort_bench.exe",
+    "args": ["sort_bench.exe", "bubble", "15000"],
+    "runs": 10,
+    "timeout_ms": 3000
+  },
+  "run_1": {
+    "real_time": 0.008026,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4152,
+    "exit_code": 0
+  },
+  "run_2": {
+    "real_time": 0.006532,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4156,
+    "exit_code": 0
+  },
+  "run_3": {
+    "real_time": 0.006750,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4152,
+    "exit_code": 0
+  },
+  "run_4": {
+    "real_time": 0.005954,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4152,
+    "exit_code": 0
+  },
+  "run_5": {
+    "real_time": 0.006088,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4148,
+    "exit_code": 0
+  },
+  "run_6": {
+    "real_time": 0.006250,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4152,
+    "exit_code": 0
+  },
+  "run_7": {
+    "real_time": 0.006031,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4152,
+    "exit_code": 0
+  },
+  "run_8": {
+    "real_time": 0.006292,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4152,
+    "exit_code": 0
+  },
+  "run_9": {
+    "real_time": 0.005807,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4152,
+    "exit_code": 0
+  },
+  "run_10": {
+    "real_time": 0.006151,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 4148,
+    "exit_code": 0
+  },
+  "results": {
+    "real_time": {
+      "mean": 0.006201,
+      "median": 0.006201,
+      "min": 0.005807,
+      "min_run": 9,
+      "max": 0.008026,
+      "max_run": 1,
+      "stddev": 0.000668
+    },
+    "sys_time": {
+      "mean": 0.000000,
+      "median": 0.000000,
+      "min": 0.000000,
+      "min_run": 1,
+      "max": 0.000000,
+      "max_run": 1,
+      "stddev": 0.000000
+    },
+    "user_time": {
+      "mean": 0.000000,
+      "median": 0.000000,
+      "min": 0.000000,
+      "min_run": 1,
+      "max": 0.000000,
+      "max_run": 1,
+      "stddev": 0.000000
+    },
+    "max_rss": {
+      "mean": 4152.000000,
+      "median": 4152.000000,
+      "min": 4148.000000,
+      "min_run": 5,
+      "max": 4156.000000,
+      "max_run": 2,
+      "stddev": 2.309401
+    },
+    "exit_code": 0
+  }
+}
