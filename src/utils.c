@@ -95,10 +95,10 @@ void parse_comparison(int start, int argc, char **argv, config_t *cfg) {
 
     // Zweites Programm (comparison)
     if (strcmp(argv[start], "python3") == 0) {
-        cfg->comparison = portable_strndup(argv[start + 1], strlen(argv[start + 1]));
+        cfg->comparison = portable_strndup(argv[with_index + 2], strlen(argv[with_index + 2]));
     }
     else {
-        cfg->comparison = portable_strndup(argv[start], strlen(argv[start]));
+        cfg->comparison = portable_strndup(argv[with_index + 1], strlen(argv[with_index + 1]));
     }
     cfg->comparison_cmd = cpy_cmd_line(&argv[with_index + 1], argc - (with_index + 1));
     cfg->comparison_args_count = argc - (with_index + 1);
