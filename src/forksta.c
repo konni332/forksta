@@ -18,5 +18,7 @@
 
 
 int main(int argc, char *argv[]) {
-    return run(argc, argv);
+    config_t cfg;
+    parse_args(argc, argv, &cfg);
+    return run(cfg);
 }

@@ -38,8 +38,9 @@ void parse_args(int argc, char **argv, config_t *cfg);
 int check_target_cmd(char **target_cmd, int argc);
 uint64_t seconds_to_ms(char *seconds);
 uint64_t minutes_to_ms(char *minutes);
-void print_benchmark_result(BenchmarkResult result, config_t cfg);
+void print_benchmark_result(const BenchmarkResult result, const config_t cfg);
 void print_progress_bar(int current, int total);
 void print_help(void);
 void print_version(void);
+void print_comparison_result(BenchmarkResult target_result, BenchmarkResult comparison_result, config_t cfg);
 #endif //UTILS_H
