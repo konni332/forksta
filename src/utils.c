@@ -94,7 +94,7 @@ void parse_comparison(int start, int argc, char **argv, config_t *cfg) {
     cfg->target_args_count = with_index - start;
 
     // Zweites Programm (comparison)
-    if (strcmp(argv[start], "python3") == 0) {
+    if (strcmp(argv[with_index + 1], "python3") == 0) {
         cfg->comparison = portable_strndup(argv[with_index + 2], strlen(argv[with_index + 2]));
     }
     else {
