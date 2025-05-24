@@ -31,7 +31,6 @@ typedef struct BenchmarkResult {
 } BenchmarkResult;
 
 typedef struct Benchmark {
-    char *name;
     int runs;
     int valid_runs;
     int num_fails;

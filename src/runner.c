@@ -118,6 +118,9 @@ int run_comparison(config_t cfg) {
     run_loop(cfg, &target_bm, cfg.target, cfg.target_cmd);
     run_loop(cfg, &comparison_bm, cfg.comparison, cfg.comparison_cmd);
 
+    calculate_stats(&target_bm);
+    calculate_stats(&comparison_bm);
+
     if (target_bm.valid_runs <= 0) {
         fprintf(stderr, "Error: No valid target runs\n\n");
         goto cleanup;
