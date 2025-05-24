@@ -235,7 +235,12 @@ void parse_args(int argc, char **argv, config_t *cfg) {
         fprintf(stderr, "Missing target program\n");
         exit(1);
     }
-    cfg->target = portable_strndup(argv[i], strlen(argv[i])); // Programm
+    if (strcmp(argv[i], "python3") == 0) {
+        cfg->target = portable_strndup(argv[i + 1], strlen(argv[i + 1]));
+    }
+    else {
+        cfg->target = portable_strndup(argv[i], strlen(argv[i]));
+    } // Programm
     cfg->target_cmd = cpy_cmd_line(&argv[i], argc - i); // Programm with arguments
     cfg->target_args_count = argc - i;
 }
