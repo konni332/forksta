@@ -21,6 +21,45 @@ int check_target_cmd(char **target_cmd, int argc) {
     return 0;
 }
 
+void parse_comparison(int start, int argc, char **argv, config_t *cfg) {
+    int with_index = -1;
+
+    // Suche nach --with & ersetze -py
+    for (int i = start; i < argc; i++) {
+        if (strcmp(argv[i], "--with") == 0) {
+            if (with_index == -1) {
+                with_index = i;
+            } else {
+                fprintf(stderr, "Invalid usage: only one --with allowed\n");
+                exit(1);
+            }
+        }
+        if (strcmp(argv[i], "-py") == 0) {
+            argv[i] = "python3";
+        }
+    }
+
+    if (with_index == -1) {
+        fprintf(stderr, "Missing --with for comparison\n");
+        exit(1);
+    }
+    if (with_index + 1 >= argc) {
+        fprintf(stderr, "No comparison target after --with\n");
+        exit(1);
+    }
+
+    // Erstes Programm (target)
+    cfg->target = argv[start];
+    cfg->target_cmd = &argv[start];
+    cfg->target_args_count = with_index - start;
+
+    // Zweites Programm (comparison)
+    cfg->comparison = argv[with_index + 1];
+    cfg->comparison_cmd = &argv[with_index + 1];
+    cfg->comparison_args_count = argc - (with_index + 1);
+}
+
+
 void parse_args(int argc, char **argv, config_t *cfg) {
     if (argc < 2) {
         fprintf(stderr, "Missing target\n");
@@ -38,10 +77,12 @@ void parse_args(int argc, char **argv, config_t *cfg) {
     cfg->runs = 1;
     cfg->dump_csv = 0;
     cfg->dump_json = 0;
+    cfg->print_final = 0;
     cfg->target = NULL;
     cfg->target_cmd = NULL;
     cfg->target_args_count = 0;
     cfg->timeout_ms = DEFAULT_TIMEOUT_MS;
+    cfg->comparison = NULL;
 
     int i = 1;
     // Optionen parsen
@@ -70,7 +111,10 @@ void parse_args(int argc, char **argv, config_t *cfg) {
             cfg->show_cpu_times = 0;
             cfg->show_max_rss = 0;
             cfg->show_exit_code = 0;
-        } else if (strncmp(argv[i], "--dump", 6) == 0) {
+        }
+
+        // --dump
+        else if (strncmp(argv[i], "--dump", 6) == 0) {
             if (i + 1 < argc) {
                 if (strcmp(argv[i + 1], "csv") == 0) {
                     cfg->dump_csv = 1;
@@ -86,7 +130,10 @@ void parse_args(int argc, char **argv, config_t *cfg) {
                 fprintf(stderr, "Missing dump format\n");
                 exit(1);
             }
-        } else if (strcmp(argv[i], "--runs") == 0) {
+        }
+
+        // --runs
+        else if (strcmp(argv[i], "--runs") == 0) {
             if (i + 1 < argc) {
                 cfg->runs = atoi(argv[i + 1]);
                 if (cfg->runs < 1) cfg->runs = 1;
@@ -95,7 +142,10 @@ void parse_args(int argc, char **argv, config_t *cfg) {
                 fprintf(stderr, "Missing number of runs\n");
                 exit(1);
             }
-        } else if (strcmp(argv[i], "--timeout") == 0) {
+        }
+
+        // --timeout
+        else if (strcmp(argv[i], "--timeout") == 0) {
             if (i + 1 < argc) {
                 cfg->timeout_ms = seconds_to_ms(argv[i + 1]);
                 i++;
@@ -104,6 +154,8 @@ void parse_args(int argc, char **argv, config_t *cfg) {
                 exit(1);
             }
         }
+
+        // --timeout-m
         else if (strcmp(argv[i], "--timeout-m") == 0) {
             if (i + 1 < argc) {
                 cfg->timeout_ms = minutes_to_ms(argv[i + 1]);
@@ -112,13 +164,22 @@ void parse_args(int argc, char **argv, config_t *cfg) {
                 fprintf(stderr, "Missing timeout\n");
                 exit(1);
             }
-        } else if (strcmp(argv[i], "--help") == 0) {
+        }
+
+        // --help
+        else if (strcmp(argv[i], "--help") == 0) {
             cfg->help = 1;
             break;
-        } else if (strcmp(argv[i], "--version") == 0) {
+        }
+
+        // --version
+        else if (strcmp(argv[i], "--version") == 0) {
             cfg->version = 1;
             break;
-        } else if (strcmp(argv[i], "-py") == 0) {
+        }
+
+        // -py
+        else if (strcmp(argv[i], "-py") == 0) {
             if (i + 1 >= argc || strstr(argv[i + 1], ".py") == NULL) {
                 fprintf(stderr, "Missing python file\n");
                 exit(1);
@@ -130,6 +191,14 @@ void parse_args(int argc, char **argv, config_t *cfg) {
             return;
         }
 
+        // --compare
+        else if (strcmp(argv[i], "--compare") == 0) {
+            if (i + 1 >= argc) {
+                fprintf(stderr, "Missing comparison\n");
+                exit(1);
+            }
+            return parse_comparison(i + 1, argc, argv, cfg);
+        }
         else {
             fprintf(stderr, "Unknown option: %s\n", argv[i]);
             exit(1);

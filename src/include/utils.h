@@ -13,7 +13,7 @@
 #define ANSI_YELLOW  "\x1b[33m"
 #define ANSI_RED     "\x1b[31m"
 
-typedef struct {
+typedef struct config_t {
     int help;
     int version;
     int show_realtime;
@@ -24,10 +24,14 @@ typedef struct {
     int runs;
     int dump_csv;
     int dump_json;
+    int print_final;
     char *target;
     char **target_cmd;
     int target_args_count;
     uint64_t timeout_ms;
+    char *comparison;
+    char **comparison_cmd;
+    int comparison_args_count;
 } config_t;
 
 void parse_args(int argc, char **argv, config_t *cfg);
