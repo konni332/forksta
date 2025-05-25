@@ -58,6 +58,10 @@ int run(config_t *cfg) {
         print_version();
         return 0;
     }
+    if (cfg->dependencies) {
+        print_dependencies();
+        return 0;
+    }
     if (cfg->target == NULL) {
         fprintf(stderr, "Error in target: NULL\n");
         return -1;
@@ -372,7 +376,7 @@ cleanup:
 #include <windows.h>
 #include <psapi.h>
 #include <stdint.h>
-int run_target(const char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
+int run_target(char **argv, BenchmarkRun *run_result, uint64_t timeout_ms) {
     if (!argv || !run_result) {
         fprintf(stderr, "Invalid arguments in run_target\n");
         return -1;

@@ -126,3 +126,18 @@ void print_stat(const BenchmarkStats *stats, const char *metric, const int runs)
     printf(ANSI_BOLD "---------------------------------------------" ANSI_RESET "\n");
     printf("\n");
 }
+
+void print_dependencies(void) {
+    printf(ANSI_BOLD ANSI_CYAN "======= Dependencies: =======\n" ANSI_RESET);
+    printf(ANSI_YELLOW "(These only apply for -py and --visual usage! All basic functions are dependency-free!)\n\n" ANSI_RESET);
+
+    printf(ANSI_YELLOW "    -py:\n" ANSI_RESET);
+    printf(ANSI_CYAN "        All dependencies of the Python script to be benchmarked.\n" ANSI_RESET);
+
+    printf(ANSI_YELLOW "    --visual:\n" ANSI_RESET);
+    printf(ANSI_CYAN "        Python 3.7+ required:\n" ANSI_RESET);
+    printf(ANSI_GREEN "            https://www.python.org/downloads/\n" ANSI_RESET);
+    printf(ANSI_CYAN "        Python package:\n" ANSI_RESET);
+    printf(ANSI_GREEN "            pip install colorama\n" ANSI_RESET);
+}
+

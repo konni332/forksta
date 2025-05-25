@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "runner.h"
+#include "ui.h"
 #include "utils.h"
 
 
@@ -36,7 +37,11 @@ int visualize(config_t *cfg) {
         forksta_path, cfg->visual_rep, cfg->target_dump_file, flag);
     int rc = system(visual_cmd);
     if (rc != 0) {
+        fprintf(stderr, "\n\n");
         fprintf(stderr, "Error while running visualizer: %d\n", rc);
+        fprintf(stderr, "Command: %s\n", visual_cmd);
+        fprintf(stderr, "Possibly missing dependencies! Try \"forksta --dependencies\" for details");
+        fprintf(stderr, "\n");
     }
     return rc;
 }
@@ -48,7 +53,6 @@ int main(int argc, char *argv[]) {
     // run program
     parse_args(argc, argv, &cfg);
     int rc = run(&cfg);
-    printf("ran with exit code %d\n\n", rc);
 
     if (cfg.visualize) {
         rc = visualize(&cfg);

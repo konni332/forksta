@@ -258,6 +258,7 @@ void init_config(config_t *cfg) {
     // Default Werte
     cfg->help = 0;
     cfg->version = 0;
+    cfg->dependencies = 0;
     cfg->dump_csv = 0;
     cfg->dump_json = 0;
     cfg->target = NULL;

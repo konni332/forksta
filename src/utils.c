@@ -233,6 +233,9 @@ void parse_args(int argc, char **argv, config_t *cfg) {
             }
             cfg->visual_rep = argv[i + 1];
             i++;
+        } else if (strcmp(argv[i], "--dependencies") == 0) {
+            cfg->dependencies = 1;
+            break;
         }
         else {
             fprintf(stderr, "Unknown option: %s\n", argv[i]);

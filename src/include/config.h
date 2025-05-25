@@ -9,6 +9,7 @@
 typedef struct config_t {
     int help;
     int version;
+    int dependencies;
     int show_realtime;
     int show_cpu_times;
     int show_max_rss;
