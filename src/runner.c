@@ -25,6 +25,29 @@ init_stats(&prefix##stats_sys_time); \
 init_stats(&prefix##stats_user_time); \
 init_stats(&prefix##stats_max_rss);
 
+int run_warmup(config_t *cfg, const char *target, const char **target_cmd) {
+    if (cfg->warmup_runs <= 0) {
+        return 0;
+    }
+    if (!target || !target_cmd || !target_exists(target)) {
+        fprintf(stderr, "Major error in warm up runs.\nAborting...");
+        exit(1);
+    }
+
+    BenchmarkRun warmup_run_result; // discarded after warmups
+    printf("Warmup: %d runs\n", cfg->warmup_runs);
+    for (int i = 0; i < cfg->warmup_runs; ++i) {
+        print_progress_bar(i, cfg->warmup_runs);
+        int rc = run_target(target_cmd, &warmup_run_result, cfg->timeout_ms);
+        if (rc != 0) {
+            fprintf(stderr, "Error in warmup run %d\n", i + 1);
+            return rc;
+        }
+    }
+    print_progress_bar(cfg->warmup_runs, cfg->warmup_runs);
+    printf("\n\n");
+}
+
 int run(config_t *cfg) {
     if (cfg->help) {
         print_help();
@@ -35,7 +58,7 @@ int run(config_t *cfg) {
         return 0;
     }
     if (cfg->target == NULL) {
-        fprintf(stderr, "Error in target command: NULL\n");
+        fprintf(stderr, "Error in target: NULL\n");
         return -1;
     }
     if (cfg->target_cmd == NULL) {
@@ -64,6 +87,7 @@ int run_single_benchmark(config_t *cfg) {
         goto cleanup;
     }
 
+    run_warmup(cfg, cfg->target, cfg->target_cmd);
     run_loop(*cfg, &bm, cfg->target, cfg->target_cmd);
 
     if (bm.valid_runs <= 0) {
@@ -141,7 +165,9 @@ int run_comparison(config_t *cfg) {
         goto cleanup;
     }
 
+    run_warmup(cfg, cfg->target, cfg->target_cmd);
     run_loop(*cfg, &target_bm, cfg->target, cfg->target_cmd);
+    run_warmup(cfg, cfg->comparison, cfg->comparison_cmd);
     run_loop(*cfg, &comparison_bm, cfg->comparison, cfg->comparison_cmd);
 
     calculate_stats(&target_bm);

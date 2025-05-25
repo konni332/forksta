@@ -3,6 +3,6 @@ project(forksta C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(forksta src/forksta.c src/logger.c src/metrics.c src/runner.c src/utils.c src/ui.c)
+add_executable(forksta src/forksta.c src/logger.c src/metrics.c src/runner.c src/utils.c src/ui.c src/config.c)
 
 target_include_directories(forksta PRIVATE src/include/)
