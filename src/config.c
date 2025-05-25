@@ -7,8 +7,111 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils.h"
+
 #ifdef _WIN32
 #include <windows.h>
+    void get_config_path(char *path, size_t size) {
+        if (!path || size < 1) return;
+        get_executable_path(path, size);
+        strcat(path, "/forksta.conf");
+    }
+#elif __linux__
+#include <sys/stat.h>
+#include <unistd.h>
+char* expand_tilde(const char* path) {
+    if (path[0] != '~') {
+        return strdup(path);
+    }
+
+    const char* home = getenv("HOME");
+    if (!home) {
+        return NULL;
+    }
+
+    size_t len = strlen(home) + strlen(path);
+    char* fullpath = malloc(len);
+    if (!fullpath) {
+        return NULL;
+    }
+
+    sprintf(fullpath, "%s%s", home, path + 1);
+    return fullpath;
+}
+
+int dir_exists(const char *path) {
+        struct stat st;
+        return stat(path, &st) == 0 && S_ISDIR(st.st_mode);
+    }
+
+void get_config_path(char *path, size_t size) {
+    if (!path || size < 1) return;
+    char *dir = expand_tilde("~/.config/forksta");
+    if (!dir_exists(dir)) mkdir(dir, 0755);
+    free(dir);
+
+    char *fullpath = expand_tilde("~/.config/forksta/forksta.conf")
+    snprintf(path, size, "%s", fullpath);
+    free(fullpath);
+}
+
+#elif __APPLE__
+char* expand_tilde(const char* path) {
+    if (path[0] != '~') {
+        return strdup(path);
+    }
+
+    const char* home = getenv("HOME");
+    if (!home) {
+        return NULL;
+    }
+
+    size_t len = strlen(home) + strlen(path); // +1 fehlt nicht, da '/' schon in Pfad enthalten ist
+    char* fullpath = malloc(len); // besser: +1 für null terminator
+    if (!fullpath) {
+        return NULL;
+    }
+
+    sprintf(fullpath, "%s%s", home, path + 1); // path+1: überspringt das '~'
+    return fullpath;
+}
+
+int dir_exists(const char *path) {
+    struct stat st;
+    return stat(path, &st) == 0 && S_ISDIR(st.st_mode);
+}
+
+void get_config_path(char *path, size_t size) {
+    if (!path || size < 1) return;
+
+    char *dir = expand_tilde("~/Library/Application Support/forksta");
+    if (dir == NULL) {
+        fprintf(stderr, "Error expanding tilde for config directory\n");
+        exit(1);
+    }
+
+    if (!dir_exists(dir)) {
+        if (mkdir(dir, 0755) != 0) {
+            perror("mkdir failed");
+            free(dir);
+            exit(1);
+        }
+    }
+
+    char *fullpath = expand_tilde("~/Library/Application Support/forksta/forksta.conf");
+    if (!fullpath) {
+        fprintf(stderr, "Error expanding tilde for config file path\n");
+        free(dir);
+        exit(1);
+    }
+
+    snprintf(path, size, "%s", fullpath);
+
+    free(dir);
+    free(fullpath);
+}
+
+#else
+    #error "Unsuported OS"
 #endif
 void free_cmd_line(char **cmd_line) {
     if (!cmd_line) return;
@@ -65,8 +168,7 @@ void trim(char *str) {
 
 void parse_config_ini(config_t *cfg) {
     char ini_path[1024];
-    get_executable_path(ini_path, sizeof(ini_path));
-    strcat(ini_path, "/forksta.conf");
+    get_config_path(ini_path, sizeof(ini_path));
     int exists = config_exists(ini_path);
     if (!exists) {
         init_config_ini(ini_path);
