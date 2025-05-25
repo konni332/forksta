@@ -18,7 +18,7 @@ char* portable_strndup(const char* s, size_t n) {
     return result;
 }
 
-char** cpy_cmd_line(const char** cmd, int args_count) {
+char** cpy_cmd_line(char** cmd, int args_count) {
     char** cmd_line = (char**)malloc(sizeof(char*) * (args_count + 1));
     if (cmd_line == NULL) {
         fprintf(stderr, "Error in cpy_cmd_line\n");
@@ -337,8 +337,8 @@ void get_executable_path(char *buffer, size_t size) {
 #include <limits.h>
 #include <libgen.h>
 void get_executable_path(char *buffer, size_t size) {
-    char fullpath[PATH_MAX]
-    size_t len = readlink("/proc/self/exe", path, sizeof(path) - 1)
+    char path[PATH_MAX];
+    size_t len = readlink("/proc/self/exe", path, sizeof(path) - 1);
     if (len != -1) {
         path[len - 1] = '\0';
         char *dir = dirname(path);

@@ -25,7 +25,7 @@ init_stats(&prefix##stats_sys_time); \
 init_stats(&prefix##stats_user_time); \
 init_stats(&prefix##stats_max_rss);
 
-int run_warmup(config_t *cfg, const char *target, const char **target_cmd) {
+int run_warmup(config_t *cfg, char *target, char **target_cmd) {
     if (cfg->warmup_runs <= 0) {
         return 0;
     }
@@ -46,6 +46,7 @@ int run_warmup(config_t *cfg, const char *target, const char **target_cmd) {
     }
     print_progress_bar(cfg->warmup_runs, cfg->warmup_runs);
     printf("\n\n");
+    return 0;
 }
 
 int run(config_t *cfg) {
@@ -279,7 +280,7 @@ cleanup:
 
 
 
-int run_loop(config_t cfg, Benchmark *bm, const char *target, const char **target_cmd) {
+int run_loop(config_t cfg, Benchmark *bm, char *target, char **target_cmd) {
     printf("Running %d times\n", cfg.runs);
     printf("Target: %s\n", target);
     for (int i = 0; i < cfg.runs; ++i) {
@@ -500,7 +501,7 @@ int run_target(char **argv, BenchmarkRun *result, uint64_t timeout_ms) {
 
         if (waited_ms >= timeout_ms) {
             char msg[512];
-            snprintf(msg, ANSI_RED "Timeout: killed target %d after %llums\n" ANSI_RESET, pid, (unsigned long long)timeout_ms);
+            snprintf(msg, sizeof(msg), ANSI_RED "Timeout: killed target %d after %llums\n" ANSI_RESET, pid, (unsigned long long)timeout_ms);
             print_error_below(msg);
             kill(pid, SIGKILL);
             waitpid(pid, &status, 0);

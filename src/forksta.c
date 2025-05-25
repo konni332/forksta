@@ -1,4 +1,3 @@
-#include <bemapiset.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,6 +8,7 @@
 
 #ifdef _WIN32
     #define SLEEP_MS(ms) Sleep(ms)
+    #include <bemapiset.h>
 #else
     #include <unistd.h>
     #define SLEEP_MS(ms) usleep((ms) * 1000)

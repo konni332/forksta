@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <windows.h>
 #include "utils.h"
-
+#ifdef _WIN32
+#include <windows.h>
+#endif
 void free_cmd_line(char **cmd_line) {
     if (!cmd_line) return;
     for (int i = 0; cmd_line[i] != NULL; i++) {

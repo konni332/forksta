@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <float.h>
+#include <stdio.h>
 
 void init_stats(BenchmarkStats *stats, const int runs) {
     stats->mean = 0;
