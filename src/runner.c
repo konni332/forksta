@@ -118,14 +118,18 @@ int run_single_benchmark(config_t *cfg) {
             goto cleanup;
         }
     }
-
-    if (cfg->show_realtime || cfg->show_all) print_stat(&bm.result.real_time_stats, "Real Time (s)", bm.valid_runs);
-    if (cfg->show_cpu_times || cfg->show_all) {
-        print_stat(&bm.result.sys_time_stats, "System Time (s)", bm.valid_runs);
-        print_stat(&bm.result.user_time_stats, "User Time (s)", bm.valid_runs);
+    if (!cfg->visualize) {
+        if (cfg->show_realtime || cfg->show_all) {
+            print_stat(&bm.result.real_time_stats, "Real Time (s)", bm.valid_runs);
+        }
+        if (cfg->show_cpu_times || cfg->show_all) {
+            print_stat(&bm.result.sys_time_stats, "System Time (s)", bm.valid_runs);
+            print_stat(&bm.result.user_time_stats, "User Time (s)", bm.valid_runs);
+        }
+        if (cfg->show_max_rss || cfg->show_all) {
+            print_stat(&bm.result.max_rss_stats, "Max RSS (kB)", bm.valid_runs);
+        }
     }
-    if (cfg->show_max_rss || cfg->show_all) print_stat(&bm.result.max_rss_stats, "Max RSS (kB)", bm.valid_runs);
-
 cleanup:
     destroy_benchmark(&bm);
     return bm.ran == 0 ? 0 : 1;
@@ -242,7 +246,23 @@ int run_comparison(config_t *cfg) {
     if (cfg->show_max_rss || cfg->show_all) {
         print_stat(&comparison_bm.result.max_rss_stats, "Max RSS (kB)", comparison_bm.valid_runs);
     }
+    if (!cfg->visualize) {
+        if (cfg->show_realtime || cfg->show_all) {
+            print_stat(&target_bm.result.real_time_stats, "Real Time (s)", target_bm.valid_runs);
+            print_stat(&comparison_bm.result.real_time_stats, "Real Time (s)", comparison_bm.valid_runs);
+        }
+        if (cfg->show_cpu_times || cfg->show_all) {
+            print_stat(&target_bm.result.sys_time_stats, "System Time (s)", target_bm.valid_runs);
+            print_stat(&comparison_bm.result.sys_time_stats, "System Time (s)", comparison_bm.valid_runs);
 
+            print_stat(&target_bm.result.user_time_stats, "User Time (s)", target_bm.valid_runs);
+            print_stat(&comparison_bm.result.user_time_stats, "User Time (s)", comparison_bm.valid_runs);
+        }
+        if (cfg->show_max_rss || cfg->show_all) {
+            print_stat(&target_bm.result.max_rss_stats, "Max RSS (kB)", target_bm.valid_runs);
+            print_stat(&comparison_bm.result.max_rss_stats, "Max RSS (kB)", target_bm.valid_runs);
+        }
+    }
 cleanup:
     destroy_benchmark(&target_bm);
     destroy_benchmark(&comparison_bm);

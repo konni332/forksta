@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "target": "bench_sort.py",
+    "args": ["python3", "bench_sort.py", "qsort", "1000"],
+    "runs": 1,
+    "timeout_ms": 3000
+  },
+  "run_1": {
+    "real_time": 0.052484,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9168,
+    "exit_code": 0
+  },
+  "results": {
+    "real_time": {
+      "mean": 0.052484,
+      "median": 0.052484,
+      "min": 0.052484,
+      "min_run": 1,
+      "max": 0.052484,
+      "max_run": 1,
+      "stddev": 0.000000,
+      "cv": 0.000000
+    },
+    "sys_time": {
+      "mean": 0.015625,
+      "median": 0.015625,
+      "min": 0.015625,
+      "min_run": 1,
+      "max": 0.015625,
+      "max_run": 1,
+      "stddev": 0.000000,
+      "cv": 0.000000
+    },
+    "user_time": {
+      "mean": 0.000000,
+      "median": 0.000000,
+      "min": 0.000000,
+      "min_run": 1,
+      "max": 0.000000,
+      "max_run": 1,
+      "stddev": 0.000000,
+      "cv": -1.000000
+    },
+    "max_rss": {
+      "mean": 9168.000000,
+      "median": 9168.000000,
+      "min": 9168.000000,
+      "min_run": 1,
+      "max": 9168.000000,
+      "max_run": 1,
+      "stddev": 0.000000,
+      "cv": 0.000000
+    },
+    "exit_code": 0
+  }
+}

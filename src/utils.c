@@ -229,8 +229,7 @@ void parse_args(int argc, char **argv, config_t *cfg) {
             cfg->visualize = 1;
             cfg->dump_json = 1;
             if (i + 1 >= argc || argv[i + 1][0] == '-') {
-                fprintf(stderr, "Missing representation type");
-                exit(1);
+                continue;
             }
             cfg->visual_rep = argv[i + 1];
             i++;
