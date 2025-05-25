@@ -1,0 +1,751 @@
+{
+  "meta": {
+    "target": "bench_sort.py",
+    "args": ["python3", "bench_sort.py", "qsort", "1000"],
+    "runs": 100,
+    "timeout_ms": 3000
+  },
+  "run_1": {
+    "real_time": 0.057475,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_2": {
+    "real_time": 0.048098,
+    "sys_time": 0.000000,
+    "user_time": 0.031250,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_3": {
+    "real_time": 0.050547,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_4": {
+    "real_time": 0.054420,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_5": {
+    "real_time": 0.049812,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_6": {
+    "real_time": 0.048034,
+    "sys_time": 0.015625,
+    "user_time": 0.031250,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_7": {
+    "real_time": 0.048156,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_8": {
+    "real_time": 0.045902,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9192,
+    "exit_code": 0
+  },
+  "run_9": {
+    "real_time": 0.048567,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_10": {
+    "real_time": 0.044645,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_11": {
+    "real_time": 0.047901,
+    "sys_time": 0.031250,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_12": {
+    "real_time": 0.050187,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_13": {
+    "real_time": 0.046245,
+    "sys_time": 0.015625,
+    "user_time": 0.046875,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_14": {
+    "real_time": 0.048779,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_15": {
+    "real_time": 0.045177,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_16": {
+    "real_time": 0.045402,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_17": {
+    "real_time": 0.047985,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_18": {
+    "real_time": 0.047776,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_19": {
+    "real_time": 0.046772,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_20": {
+    "real_time": 0.046735,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_21": {
+    "real_time": 0.045529,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_22": {
+    "real_time": 0.047807,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9200,
+    "exit_code": 0
+  },
+  "run_23": {
+    "real_time": 0.046360,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_24": {
+    "real_time": 0.048877,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_25": {
+    "real_time": 0.047295,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_26": {
+    "real_time": 0.047055,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_27": {
+    "real_time": 0.045682,
+    "sys_time": 0.000000,
+    "user_time": 0.031250,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_28": {
+    "real_time": 0.048819,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_29": {
+    "real_time": 0.047157,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_30": {
+    "real_time": 0.045509,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_31": {
+    "real_time": 0.045374,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_32": {
+    "real_time": 0.047308,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_33": {
+    "real_time": 0.046177,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_34": {
+    "real_time": 0.045333,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_35": {
+    "real_time": 0.045978,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_36": {
+    "real_time": 0.046966,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_37": {
+    "real_time": 0.048694,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_38": {
+    "real_time": 0.047976,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_39": {
+    "real_time": 0.045914,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_40": {
+    "real_time": 0.047751,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_41": {
+    "real_time": 0.046005,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_42": {
+    "real_time": 0.047682,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_43": {
+    "real_time": 0.046756,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_44": {
+    "real_time": 0.053769,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_45": {
+    "real_time": 0.046037,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_46": {
+    "real_time": 0.050136,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_47": {
+    "real_time": 0.046915,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_48": {
+    "real_time": 0.044268,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_49": {
+    "real_time": 0.045261,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_50": {
+    "real_time": 0.047697,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_51": {
+    "real_time": 0.044737,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_52": {
+    "real_time": 0.048313,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_53": {
+    "real_time": 0.046560,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_54": {
+    "real_time": 0.047027,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_55": {
+    "real_time": 0.047979,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_56": {
+    "real_time": 0.047366,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_57": {
+    "real_time": 0.046823,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_58": {
+    "real_time": 0.046126,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_59": {
+    "real_time": 0.047517,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_60": {
+    "real_time": 0.048632,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_61": {
+    "real_time": 0.047475,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_62": {
+    "real_time": 0.047071,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_63": {
+    "real_time": 0.046371,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_64": {
+    "real_time": 0.045944,
+    "sys_time": 0.046875,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_65": {
+    "real_time": 0.045930,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_66": {
+    "real_time": 0.047532,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_67": {
+    "real_time": 0.093404,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_68": {
+    "real_time": 0.045664,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_69": {
+    "real_time": 0.045125,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_70": {
+    "real_time": 0.045233,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_71": {
+    "real_time": 0.048522,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_72": {
+    "real_time": 0.046538,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_73": {
+    "real_time": 0.045696,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_74": {
+    "real_time": 0.047440,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_75": {
+    "real_time": 0.048225,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_76": {
+    "real_time": 0.047153,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_77": {
+    "real_time": 0.065546,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_78": {
+    "real_time": 0.047411,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_79": {
+    "real_time": 0.046695,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_80": {
+    "real_time": 0.048953,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_81": {
+    "real_time": 0.046564,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_82": {
+    "real_time": 0.045382,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_83": {
+    "real_time": 0.048263,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_84": {
+    "real_time": 0.046717,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_85": {
+    "real_time": 0.047441,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_86": {
+    "real_time": 0.046529,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_87": {
+    "real_time": 0.045162,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_88": {
+    "real_time": 0.052723,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_89": {
+    "real_time": 0.046963,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_90": {
+    "real_time": 0.046473,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_91": {
+    "real_time": 0.049428,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_92": {
+    "real_time": 0.049440,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_93": {
+    "real_time": 0.048753,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_94": {
+    "real_time": 0.048383,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_95": {
+    "real_time": 0.046567,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_96": {
+    "real_time": 0.048420,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_97": {
+    "real_time": 0.047060,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_98": {
+    "real_time": 0.045403,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_99": {
+    "real_time": 0.049837,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_100": {
+    "real_time": 0.047695,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9192,
+    "exit_code": 0
+  },
+  "results": {
+    "real_time": {
+      "mean": 0.047155,
+      "median": 0.047155,
+      "min": 0.044268,
+      "min_run": 48,
+      "max": 0.093404,
+      "max_run": 67,
+      "stddev": 0.005401,
+      "cv": 11.453370
+    },
+    "sys_time": {
+      "mean": 0.015625,
+      "median": 0.015625,
+      "min": 0.000000,
+      "min_run": 1,
+      "max": 0.046875,
+      "max_run": 64,
+      "stddev": 0.012365,
+      "cv": 79.136757
+    },
+    "user_time": {
+      "mean": 0.007812,
+      "median": 0.007812,
+      "min": 0.000000,
+      "min_run": 4,
+      "max": 0.046875,
+      "max_run": 13,
+      "stddev": 0.009552,
+      "cv": 122.268127
+    },
+    "max_rss": {
+      "mean": 9180.000000,
+      "median": 9180.000000,
+      "min": 9172.000000,
+      "min_run": 3,
+      "max": 9200.000000,
+      "max_run": 22,
+      "stddev": 5.741925,
+      "cv": 0.062548
+    },
+    "exit_code": 0
+  }
+}

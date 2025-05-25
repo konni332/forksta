@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "target": "bench_sort.py",
+    "args": ["python3", "bench_sort.py", "qsort", "1000"],
+    "runs": 15,
+    "timeout_ms": 3000
+  },
+  "run_1": {
+    "real_time": 0.053650,
+    "sys_time": 0.015625,
+    "user_time": 0.015625,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_2": {
+    "real_time": 0.048627,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_3": {
+    "real_time": 0.045743,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_4": {
+    "real_time": 0.043361,
+    "sys_time": 0.000000,
+    "user_time": 0.015625,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_5": {
+    "real_time": 0.045399,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_6": {
+    "real_time": 0.044680,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9176,
+    "exit_code": 0
+  },
+  "run_7": {
+    "real_time": 0.047501,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_8": {
+    "real_time": 0.043670,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_9": {
+    "real_time": 0.043057,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_10": {
+    "real_time": 0.046470,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9192,
+    "exit_code": 0
+  },
+  "run_11": {
+    "real_time": 0.044813,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "run_12": {
+    "real_time": 0.043291,
+    "sys_time": 0.000000,
+    "user_time": 0.000000,
+    "max_rss": 9172,
+    "exit_code": 0
+  },
+  "run_13": {
+    "real_time": 0.045652,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9180,
+    "exit_code": 0
+  },
+  "run_14": {
+    "real_time": 0.042428,
+    "sys_time": 0.015625,
+    "user_time": 0.000000,
+    "max_rss": 9188,
+    "exit_code": 0
+  },
+  "run_15": {
+    "real_time": 0.042221,
+    "sys_time": 0.031250,
+    "user_time": 0.000000,
+    "max_rss": 9184,
+    "exit_code": 0
+  },
+  "results": {
+    "real_time": {
+      "mean": 0.044813,
+      "median": 0.044813,
+      "min": 0.042221,
+      "min_run": 15,
+      "max": 0.053650,
+      "max_run": 1,
+      "stddev": 0.002997,
+      "cv": 6.688259
+    },
+    "sys_time": {
+      "mean": 0.000000,
+      "median": 0.000000,
+      "min": 0.000000,
+      "min_run": 2,
+      "max": 0.031250,
+      "max_run": 15,
+      "stddev": 0.013206,
+      "cv": -1.000000
+    },
+    "user_time": {
+      "mean": 0.000000,
+      "median": 0.000000,
+      "min": 0.000000,
+      "min_run": 2,
+      "max": 0.015625,
+      "max_run": 1,
+      "stddev": 0.005906,
+      "cv": -1.000000
+    },
+    "max_rss": {
+      "mean": 9180.000000,
+      "median": 9180.000000,
+      "min": 9172.000000,
+      "min_run": 12,
+      "max": 9192.000000,
+      "max_run": 10,
+      "stddev": 5.554921,
+      "cv": 0.060511
+    },
+    "exit_code": 0
+  }
+}

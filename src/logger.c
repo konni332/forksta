@@ -32,10 +32,10 @@ int dump_csv(const char *filename, config_t cfg, BenchmarkResult result, const B
 
     fprintf(file, "\n");
 
-    fprintf(file, "statistic,mean,median,min,min_run,max,max_run,stddev\n");
+    fprintf(file, "statistic,mean,median,min,min_run,max,max_run,stddev,cv_percent\n");
 
     #define WRITE_STATS_ROW(label, stats) \
-        fprintf(file, "%s,%.6f,%.6f,%.6f,%d,%.6f,%d,%.6f\n", \
+        fprintf(file, "%s,%.6f,%.6f,%.6f,%d,%.6f,%d,%.6f,%.6f\n", \
             label, \
             stats.mean, \
             stats.median, \
@@ -43,7 +43,8 @@ int dump_csv(const char *filename, config_t cfg, BenchmarkResult result, const B
             stats.min_run + 1, \
             stats.max, \
             stats.max_run + 1, \
-            stats.stddev \
+            stats.stddev, \
+            stats.cv_percent \
         );
 
     WRITE_STATS_ROW("real_time", result.real_time_stats);
@@ -103,7 +104,8 @@ int dump_json(const char *filename, config_t cfg, BenchmarkResult result, const 
         fprintf(file, "      \"min_run\": %d,\n", result.field.min_run); \
         fprintf(file, "      \"max\": %.6f,\n", result.field.max); \
         fprintf(file, "      \"max_run\": %d,\n", result.field.max_run); \
-        fprintf(file, "      \"stddev\": %.6f\n", result.field.stddev); \
+        fprintf(file, "      \"stddev\": %.6f,\n", result.field.stddev); \
+        fprintf(file, "      \"cv\": %.6f\n", result.field.cv_percent); \
         fprintf(file, "    },\n"); \
     } while(0)
 

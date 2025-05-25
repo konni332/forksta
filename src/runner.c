@@ -25,28 +25,28 @@ init_stats(&prefix##stats_sys_time); \
 init_stats(&prefix##stats_user_time); \
 init_stats(&prefix##stats_max_rss);
 
-int run(config_t cfg) {
-    if (cfg.help) {
+int run(config_t *cfg) {
+    if (cfg->help) {
         print_help();
         return 0;
     }
-    if (cfg.version) {
+    if (cfg->version) {
         print_version();
         return 0;
     }
-    if (cfg.target == NULL) {
+    if (cfg->target == NULL) {
         fprintf(stderr, "Error in target command: NULL\n");
         return -1;
     }
-    if (cfg.target_cmd == NULL) {
+    if (cfg->target_cmd == NULL) {
         fprintf(stderr, "Error in target command: NULL\n");
     }
 
-    if (cfg.comparison == NULL) {
+    if (cfg->comparison == NULL) {
         return run_single_benchmark(cfg);
     }
 
-    if (cfg.comparison_cmd == NULL) {
+    if (cfg->comparison_cmd == NULL) {
         fprintf(stderr, "Error in comparison command: NULL\n");
         return -1;
     }
@@ -54,24 +54,24 @@ int run(config_t cfg) {
     return run_comparison(cfg);
 }
 
-int run_single_benchmark(config_t cfg) {
+int run_single_benchmark(config_t *cfg) {
     Benchmark bm;
     // allocate runs arrays
-    init_benchmark(&bm, cfg.runs);
+    init_benchmark(&bm, cfg->runs);
 
-    if (check_target_cmd(cfg.target_cmd, cfg.target_args_count) != 0) {
+    if (check_target_cmd(cfg->target_cmd, cfg->target_args_count) != 0) {
         fprintf(stderr, "Error in target command\n");
         goto cleanup;
     }
 
-    run_loop(cfg, &bm, cfg.target, cfg.target_cmd);
+    run_loop(*cfg, &bm, cfg->target, cfg->target_cmd);
 
     if (bm.valid_runs <= 0) {
         fprintf(stderr, "Error: No valid runs\n\n");
         goto cleanup;
     }
 
-    if (bm.valid_runs < cfg.runs) {
+    if (bm.valid_runs < cfg->runs) {
         fprintf(stderr, ANSI_YELLOW "Warning: %d runs failed!\n\n" ANSI_RESET, bm.num_fails);
     } else {
         printf(ANSI_GREEN "All runs finished successfully\n\n" ANSI_RESET);
@@ -79,25 +79,28 @@ int run_single_benchmark(config_t cfg) {
 
     calculate_stats(&bm);
 
-    if (cfg.dump_csv) {
-        char filename[1024];
-        generate_filename(filename, 1024, ".csv", &bm);
-        if (dump_csv(filename, cfg, bm.result, bm.runs_array, bm.valid_runs) != 0) {
+    if (cfg->dump_csv) {
+        generate_filename(cfg->target_dump_file, 1024, ".csv", &bm);
+        if (dump_csv(cfg->target_dump_file, *cfg, bm.result, bm.runs_array, bm.valid_runs) != 0) {
             fprintf(stderr, "Error in dump_csv\n");
             goto cleanup;
         }
     }
 
-    if (cfg.dump_json) {
-        char filename[1024];
-        generate_filename(filename, 1024, ".json", &bm);
-        if (dump_json(filename, cfg, bm.result, bm.runs_array, bm.valid_runs) != 0) {
+    if (cfg->dump_json) {
+        generate_filename(cfg->target_dump_file, 1024, ".json", &bm);
+        if (dump_json(cfg->target_dump_file, *cfg, bm.result, bm.runs_array, bm.valid_runs) != 0) {
             fprintf(stderr, "Error in dump_json\n");
             goto cleanup;
         }
     }
 
-    print_benchmark_result(bm.result, cfg);
+    if (cfg->show_realtime || cfg->show_all) print_stat(&bm.result.real_time_stats, "Real Time (s)", bm.valid_runs);
+    if (cfg->show_cpu_times || cfg->show_all) {
+        print_stat(&bm.result.sys_time_stats, "System Time (s)", bm.valid_runs);
+        print_stat(&bm.result.user_time_stats, "User Time (s)", bm.valid_runs);
+    }
+    if (cfg->show_max_rss || cfg->show_all) print_stat(&bm.result.max_rss_stats, "Max RSS (kB)", bm.valid_runs);
 
 cleanup:
     destroy_benchmark(&bm);
@@ -110,36 +113,36 @@ void print_error_below(const char *msg) {
     printf("\033[F");
 }
 
-int run_comparison(config_t cfg) {
+int run_comparison(config_t *cfg) {
     Benchmark target_bm;
     Benchmark comparison_bm;
 
     // allocate runs arrays
-    init_benchmark(&target_bm, cfg.runs);
-    init_benchmark(&comparison_bm, cfg.runs);
+    init_benchmark(&target_bm, cfg->runs);
+    init_benchmark(&comparison_bm, cfg->runs);
 
-    if (check_target_cmd(cfg.target_cmd, cfg.target_args_count) != 0) {
+    if (check_target_cmd(cfg->target_cmd, cfg->target_args_count) != 0) {
         fprintf(stderr, "Error in target command\n");
         goto cleanup;
     }
 
-    if (check_target_cmd(cfg.comparison_cmd, cfg.comparison_args_count) != 0) {
+    if (check_target_cmd(cfg->comparison_cmd, cfg->comparison_args_count) != 0) {
         fprintf(stderr, "Error in comparison command\n");
         goto cleanup;
     }
 
-    if (!target_exists(cfg.target)) {
+    if (!target_exists(cfg->target)) {
         fprintf(stderr, "Error: Target does not exist\n");
         goto cleanup;
     }
 
-    if (!target_exists(cfg.comparison)) {
+    if (!target_exists(cfg->comparison)) {
         fprintf(stderr, "Error: Comparison does not exist\n");
         goto cleanup;
     }
 
-    run_loop(cfg, &target_bm, cfg.target, cfg.target_cmd);
-    run_loop(cfg, &comparison_bm, cfg.comparison, cfg.comparison_cmd);
+    run_loop(*cfg, &target_bm, cfg->target, cfg->target_cmd);
+    run_loop(*cfg, &comparison_bm, cfg->comparison, cfg->comparison_cmd);
 
     calculate_stats(&target_bm);
     calculate_stats(&comparison_bm);
@@ -153,49 +156,66 @@ int run_comparison(config_t cfg) {
         goto cleanup;
     }
 
-    if (target_bm.valid_runs < cfg.runs) {
+    if (target_bm.valid_runs < cfg->runs) {
         printf(ANSI_YELLOW "Warning: %d target runs failed!\n\n" ANSI_RESET, target_bm.num_fails);
     }
     else {
         printf(ANSI_GREEN "All target runs finished successfully\n\n" ANSI_RESET);
     }
-    if (comparison_bm.valid_runs < cfg.runs) {
+    if (comparison_bm.valid_runs < cfg->runs) {
         printf(ANSI_YELLOW "Warning: %d comparison runs failed!\n\n" ANSI_RESET, comparison_bm.num_fails);
     } else {
         printf(ANSI_GREEN "All comparison runs finished successfully\n\n" ANSI_RESET);
     }
 
-    if (cfg.dump_csv) {
-        char target_filename[1024];
-        char comparison_filename[1024];
-        generate_filename(target_filename, 1024, ".csv", &target_bm);
-        generate_filename(comparison_filename, 1024, ".csv", &comparison_bm);
-        if (dump_csv(target_filename, cfg, target_bm.result, target_bm.runs_array, target_bm.valid_runs) != 0) {
+    if (cfg->dump_csv) {
+        generate_filename(cfg->target_dump_file, 1024, ".csv", &target_bm);
+        generate_filename(cfg->comparison_dump_file, 1024, ".csv", &comparison_bm);
+        if (dump_csv(cfg->target_dump_file, *cfg, target_bm.result, target_bm.runs_array, target_bm.valid_runs) != 0) {
             fprintf(stderr, "Error in dump_csv\n");
             goto cleanup;
         }
-        if (dump_csv(comparison_filename, cfg, comparison_bm.result, comparison_bm.runs_array, comparison_bm.valid_runs) != 0) {
+        if (dump_csv(cfg->comparison_dump_file, *cfg, comparison_bm.result, comparison_bm.runs_array, comparison_bm.valid_runs) != 0) {
             fprintf(stderr, "Error in dump_csv\n");
             goto cleanup;
         }
     }
 
-    if (cfg.dump_json) {
-        char target_filename[1024];
-        char comparison_filename[1024];
-        generate_filename(target_filename, 1024, ".json", &target_bm);
-        generate_filename(comparison_filename, 1024, ".json", &comparison_bm);
-        if (dump_json(target_filename, cfg, target_bm.result, target_bm.runs_array, target_bm.valid_runs) != 0) {
+    if (cfg->dump_json) {
+        generate_filename(cfg->target_dump_file, 1024, ".json", &target_bm);
+        generate_filename(cfg->comparison_dump_file, 1024, ".json", &comparison_bm);
+        if (dump_json(cfg->target_dump_file, *cfg, target_bm.result, target_bm.runs_array, target_bm.valid_runs) != 0) {
             fprintf(stderr, "Error in dump_json\n");
             goto cleanup;
         }
-        if (dump_json(comparison_filename, cfg, comparison_bm.result, comparison_bm.runs_array, comparison_bm.valid_runs) != 0) {
+        if (dump_json(cfg->comparison_dump_file, *cfg, comparison_bm.result, comparison_bm.runs_array, comparison_bm.valid_runs) != 0) {
             fprintf(stderr, "Error in dump_json\n");
             goto cleanup;
         }
     }
+    printf(ANSI_BOLD ANSI_CYAN "Target: %s\n" ANSI_RESET, cfg->target);
+    if (cfg->show_realtime || cfg->show_all) {
+        print_stat(&target_bm.result.real_time_stats, "Real Time (s)", target_bm.valid_runs);
+    }
+    if (cfg->show_cpu_times || cfg->show_all) {
+        print_stat(&target_bm.result.sys_time_stats, "System Time (s)", target_bm.valid_runs);
+        print_stat(&target_bm.result.user_time_stats, "User Time (s)", target_bm.valid_runs);
+    }
+    if (cfg->show_max_rss || cfg->show_all) {
+        print_stat(&target_bm.result.max_rss_stats, "Max RSS (kB)", target_bm.valid_runs);
+    }
 
-    print_comparison_result(target_bm.result, comparison_bm.result, cfg);
+    printf(ANSI_BOLD ANSI_CYAN "Comparison Target: %s\n" ANSI_RESET, cfg->comparison);
+    if (cfg->show_realtime || cfg->show_all) {
+        print_stat(&comparison_bm.result.real_time_stats, "Real Time (s)", comparison_bm.valid_runs);
+    }
+    if (cfg->show_cpu_times || cfg->show_all) {
+        print_stat(&comparison_bm.result.sys_time_stats, "System Time (s)", comparison_bm.valid_runs);
+        print_stat(&comparison_bm.result.user_time_stats, "User Time (s)", comparison_bm.valid_runs);
+    }
+    if (cfg->show_max_rss || cfg->show_all) {
+        print_stat(&comparison_bm.result.max_rss_stats, "Max RSS (kB)", comparison_bm.valid_runs);
+    }
 
 cleanup:
     destroy_benchmark(&target_bm);

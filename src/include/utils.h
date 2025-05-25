@@ -31,6 +31,10 @@ typedef struct config_t {
     char *comparison;
     char **comparison_cmd;
     int comparison_args_count;
+    int visualize;
+    char target_dump_file[1024];
+    char comparison_dump_file[1024];
+    char *visual_rep;
 } config_t;
 void init_config(config_t *cfg);
 void destroy_config(config_t *cfg);
@@ -40,6 +44,6 @@ int check_target_cmd(char **target_cmd, int argc);
 uint64_t seconds_to_ms(char *seconds);
 uint64_t minutes_to_ms(char *minutes);
 char *generate_filename(char *buffer, size_t size, const char *suffix, Benchmark *bm);
-int target_exists(char *target);
-
+int target_exists(const char *target);
+void get_executable_path(char *buffer, size_t size);
 #endif //UTILS_H

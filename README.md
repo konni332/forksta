@@ -38,24 +38,24 @@ forksta [options] <program> [args...]
 
 ### Options
 
-| Option                                                        | Desciption                                                                |
-|---------------------------------------------------------------|---------------------------------------------------------------------------|
-| -r                                                            | Show real time (default)                                                  |
-| -c                                                            | Show CPU user and system time                                             |
-| -m                                                            | Show max RSS (memory usage)                                               |
-| -e                                                            | Show exit code                                                            |
-| -a                                                            | Show all metrics                                                          |
-| -py                                                           | Indicate running .py file: -py example.py. No pyhton3 argument neccessary |
-| --runs N                                                      | Run the program N times (default: 1)                                      |
-| --tiemout SEC                                                 | Kill the program after SEC seconds                                        |
-| --timeout-m M                                                 | Kill the program after M minutes                                          |
-| --dump csv                                                    | Dump results to `benchmark_results.csv`                                   |
-| --dump json                                                   | Dump results to `benchmark_results.json`                                  |
-| --compare <program1 [args1]> --with <program2 [args2]> {wip!} | Benchmark 2 programs and compare the specified metrics                    |
-| --compare-json <filename1> --with <filename2> {wip!}          | Compare specified metrics of 2 .json files                                |
-| --compare-csv <filename1> --with <filename2> {wip!}           | Compare specified metrics of 2 .csv files                                 |
-| --compare-from <program [args]> --to-json <filename> {wip!}   | Benchmark a program and compare specified metrics to existing .json file  |
-| --compare-from <program [args]> --to-csv <filename> {wip!}    | Benchmark a program and compare specified metrics to existing .csv file   |
+| Option                                                      | Desciption                                                                |
+|-------------------------------------------------------------|---------------------------------------------------------------------------|
+| -r                                                          | Show real time (default)                                                  |
+| -c                                                          | Show CPU user and system time                                             |
+| -m                                                          | Show max RSS (memory usage)                                               |
+| -e                                                          | Show exit code                                                            |
+| -a                                                          | Show all metrics                                                          |
+| -py                                                         | Indicate running .py file: -py example.py. No pyhton3 argument neccessary |
+| --runs N                                                    | Run the program N times (default: 1)                                      |
+| --tiemout SEC                                               | Kill the program after SEC seconds                                        |
+| --timeout-m M                                               | Kill the program after M minutes                                          |
+| --dump csv                                                  | Dump results to `benchmark_results.csv`                                   |
+| --dump json                                                 | Dump results to `benchmark_results.json`                                  |
+| --compare <program1 [args1]> --with <program2 [args2]>      | Benchmark 2 programs and compare the specified metrics                    |
+| --compare-json <filename1> --with <filename2> {wip!}        | Compare specified metrics of 2 .json files                                |
+| --compare-csv <filename1> --with <filename2> {wip!}         | Compare specified metrics of 2 .csv files                                 |
+| --compare-from <program [args]> --to-json <filename> {wip!} | Benchmark a program and compare specified metrics to existing .json file  |
+| --compare-from <program [args]> --to-csv <filename> {wip!}  | Benchmark a program and compare specified metrics to existing .csv file   |
 
 
 ---

@@ -9,5 +9,5 @@ void print_benchmark_result(const BenchmarkResult result, const config_t cfg);
 void print_progress_bar(int current, int total);
 void print_help(void);
 void print_version(void);
-void print_comparison_result(BenchmarkResult target_result, BenchmarkResult comparison_result, config_t cfg);
+void print_stat(const BenchmarkStats *stats, const char *metric, const int runs);
 #endif //UI_H

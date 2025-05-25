@@ -78,23 +78,42 @@ void destroy_benchmark(Benchmark *benchmark) {
 }
 
 int cmp(const void *a, const void *b) {
-    double diff = *(double *)a - *(double *)b;
-    if (diff < 0) return -1;
-    if (diff > 0) return 1;
+    double da = *(double *)a;
+    double db = *(double *)b;
+    if (da < db) return -1;
+    if (da > db) return 1;
     return 0;
 }
 
 double get_median(double *values, int count) {
-    if (!values) return 0;
-    if (count == 0) return 0;
-    if (count == 1) return values[0];
-    qsort(values, count, sizeof(double), cmp);
+    if (!values || count == 0) return 0;
+    double *copy = malloc(count * sizeof(double));
+    if (!copy) return 0;
+    for (int i = 0; i < count; i++) copy[i] = values[i];
+    qsort(copy, count, sizeof(double), cmp);
 
+    double median;
     if (count % 2 == 0) {
-        return (values[count / 2 - 1] + values[count / 2]) / 2.0;
+        median = (copy[count / 2 - 1] + copy[count / 2]) / 2.0;
+    } else {
+        median = copy[count / 2];
     }
 
-    return values[count / 2];
+    free(copy);
+    return median;
+}
+
+double get_q1(double *values, int count) {
+    if (!values || count < 2) return get_median(values, count);
+    int mid = count / 2;
+    return get_median(values, mid);
+}
+
+double get_q3(double *values, int count) {
+    if (!values || count < 2) return get_median(values, count);
+    int mid = count / 2;
+    // Wenn count ungerade, dann skippe das Median-Element
+    return get_median(values + (count % 2 == 0 ? mid : mid + 1), mid);
 }
 
 
@@ -116,12 +135,10 @@ double calculate_cv_percent(const double stddev, const double mean) {
     const double epsilon = 1e-8;
 
     if (fabs(mean) < epsilon) {
-        // Mittelwert zu klein → CV nicht sinnvoll definierbar
-        return NAN;
+        return -1.0;
     }
 
     if (fabs(stddev) < epsilon) {
-        // Standardabweichung zu klein → praktisch null Variation
         return 0.0;
     }
 
@@ -139,6 +156,9 @@ void calculate_stats(Benchmark *benchmark) {
         calculate_stddev(benchmark->result.real_time_stats.runs,
             benchmark->valid_runs,
             benchmark->result.real_time_stats.mean);
+    benchmark->result.real_time_stats.cv_percent =
+        calculate_cv_percent(benchmark->result.real_time_stats.stddev, benchmark->result.real_time_stats.mean);
+
 
     benchmark->result.user_time_stats.median = get_median(benchmark->result.user_time_stats.runs, benchmark->valid_runs);
     benchmark->result.user_time_stats.mean = benchmark->result.user_time_stats.median;
@@ -146,6 +166,9 @@ void calculate_stats(Benchmark *benchmark) {
         calculate_stddev(benchmark->result.user_time_stats.runs,
             benchmark->valid_runs,
             benchmark->result.user_time_stats.mean);
+    benchmark->result.user_time_stats.cv_percent =
+        calculate_cv_percent(benchmark->result.user_time_stats.stddev, benchmark->result.user_time_stats.mean);
+
 
     benchmark->result.sys_time_stats.median = get_median(benchmark->result.sys_time_stats.runs, benchmark->valid_runs);
     benchmark->result.sys_time_stats.mean = benchmark->result.sys_time_stats.median;
@@ -153,6 +176,9 @@ void calculate_stats(Benchmark *benchmark) {
         calculate_stddev(benchmark->result.sys_time_stats.runs,
             benchmark->valid_runs,
             benchmark->result.sys_time_stats.mean);
+    benchmark->result.sys_time_stats.cv_percent =
+        calculate_cv_percent(benchmark->result.sys_time_stats.stddev, benchmark->result.sys_time_stats.mean);
+
 
     benchmark->result.max_rss_stats.median = get_median(benchmark->result.max_rss_stats.runs, benchmark->valid_runs);
     benchmark->result.max_rss_stats.mean = benchmark->result.max_rss_stats.median;
@@ -160,4 +186,6 @@ void calculate_stats(Benchmark *benchmark) {
         calculate_stddev(benchmark->result.max_rss_stats.runs,
             benchmark->valid_runs,
             benchmark->result.max_rss_stats.mean);
+    benchmark->result.max_rss_stats.cv_percent =
+        calculate_cv_percent(benchmark->result.max_rss_stats.stddev, benchmark->result.max_rss_stats.mean);
 }

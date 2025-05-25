@@ -28,7 +28,6 @@ char** cpy_cmd_line(const char** cmd, int args_count) {
     for (int i = 0; i < args_count; i++) {
         cmd_line[i] = portable_strndup(cmd[i], strlen(cmd[i]));
         if (!cmd_line[i]) {
-            // Fehlerbehandlung: bisherigen Speicher freigeben
             for (int j = 0; j < i; j++) free(cmd_line[j]);
             free(cmd_line);
             fprintf(stderr, "Memory allocation failed in cpy_cmd_line\n");
@@ -225,6 +224,17 @@ void parse_args(int argc, char **argv, config_t *cfg) {
             }
             return parse_comparison(i + 1, argc, argv, cfg);
         }
+        // --visual
+        else if (strcmp(argv[i], "--visual") == 0) {
+            cfg->visualize = 1;
+            cfg->dump_json = 1;
+            if (i + 1 >= argc || argv[i + 1][0] == '-') {
+                fprintf(stderr, "Missing representation type");
+                exit(1);
+            }
+            cfg->visual_rep = argv[i + 1];
+            i++;
+        }
         else {
             fprintf(stderr, "Unknown option: %s\n", argv[i]);
             exit(1);
@@ -339,7 +349,7 @@ char *generate_filename(char *buffer, size_t size, const char *suffix, Benchmark
     return buffer;
 }
 
-int target_exists(char *target) {
+int target_exists(const char *target) {
     FILE *fp = fopen(target, "r");
     if (fp == NULL) {
         return 0;
@@ -347,3 +357,50 @@ int target_exists(char *target) {
     fclose(fp);
     return 1;
 }
+
+#ifdef _WIN32
+#include <windows.h>
+void get_executable_path(char *buffer, size_t size) {
+    char fullpath[MAX_PATH];
+    GetModuleFileNameA(NULL, fullpath, MAX_PATH);
+    char *p = strrchr(fullpath, '\\');
+    if (p) {
+        *p = '\0';
+    }
+    strncpy(buffer, fullpath, size - 1);
+    buffer[size - 1] = '\0';
+}
+#elif __linux__
+#include <unistd.h>
+#include <limits.h>
+#include <libgen.h>
+void get_executable_path(char *buffer, size_t size) {
+    char fullpath[PATH_MAX]
+    size_t len = readlink("/proc/self/exe", path, sizeof(path) - 1)
+    if (len != -1) {
+        path[len - 1] = '\0';
+        char *dir = dirname(path);
+        strncpy(buffer, dir, size - 1);
+        buffer[size - 1] = '\0';
+    } else {
+        fprintf(stderr, "Path to forksta executable could not be found");
+        buffer[0] = '\0';
+    }
+}
+#elif __APPLE__
+#include <mach-o/dyld.h>
+void get_executable_path(char *buffer, size_t size) {
+    char path[PATH_MAX];
+    uint32_t len = sizeof(path);
+    if (_NSGetExecutablePath(path, &len) == 0) {
+        char *dir = dirname(path);
+        strncpy(buffer, dir, size - 1);
+        buffer[size - 1] = '\0';
+    } else {
+        fprintf(stderr, "Path to long for buffer");
+        buffer[0] = '\0';
+    }
+}
+#else
+    #error "Unsupported platform"
+#endif
