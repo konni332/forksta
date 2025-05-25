@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="logo.jpg" alt="Forksta Logo" width="200"/>
+</p>
 # 🏁 Forksta – Lightweight CLI Benchmarking
 
 **Forksta** is a fast, lightweight, cross-platform benchmarking tool for programs and scripts. Written in C for maximum performance, Forksta is ideal for **quick performance analysis, metric collection, and optional visualization** via Python.
