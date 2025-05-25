@@ -1,6 +1,3 @@
-//
-// Created by doepp on 25.05.2025.
-//
 
 #ifndef CONFIG_H
 #define CONFIG_H

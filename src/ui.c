@@ -89,25 +89,29 @@ void print_version() {
 }
 
 void print_help() {
-    printf(ANSI_BOLD ANSI_GREEN "Usage: " ANSI_RESET "forksta [options] <program> [args...]\n\n");
+    printf(ANSI_BOLD ANSI_GREEN "Usage: " ANSI_RESET "forksta [options] <program> [args...] [--with <program> [args...]]\n\n");
 
     printf(ANSI_BOLD "Options:\n" ANSI_RESET);
-    printf(ANSI_CYAN "  -r            " ANSI_RESET "Show real time (default)\n");
-    printf(ANSI_CYAN "  -c            " ANSI_RESET "Show CPU user/sys time\n");
-    printf(ANSI_CYAN "  -m            " ANSI_RESET "Show max RSS (memory usage)\n");
-    printf(ANSI_CYAN "  -e            " ANSI_RESET "Show exit code\n");
-    printf(ANSI_CYAN "  -a            " ANSI_RESET "Show all metrics\n");
-    printf(ANSI_CYAN "  -py           " ANSI_RESET "Specifies a .py programm. Adds neccessary python3 argument\n");
-    printf(ANSI_CYAN "  --runs N      " ANSI_RESET "Run the program N times (default: 1)\n");
-    printf(ANSI_CYAN "  --timeout SEC " ANSI_RESET "Kill the program after SEC seconds\n");
-    printf(ANSI_CYAN "  --timeout-m M " ANSI_RESET "Kill the program after M minutes\n");
-    printf(ANSI_CYAN "  --dump csv    " ANSI_RESET "Dump results to benchmark_results.csv\n");
-    printf(ANSI_CYAN "  --dump json   " ANSI_RESET "Dump results to benchmark_results.json\n");
-    printf(ANSI_CYAN "  --help        " ANSI_RESET "Show this help message and exit\n");
-    printf(ANSI_CYAN "  --version     " ANSI_RESET "Show version and exit\n");
-
+    printf(ANSI_CYAN "  -r                 " ANSI_RESET "Show real time (default)\n");
+    printf(ANSI_CYAN "  -c                 " ANSI_RESET "Show CPU user/sys time\n");
+    printf(ANSI_CYAN "  -m                 " ANSI_RESET "Show max RSS (memory usage)\n");
+    printf(ANSI_CYAN "  -e                 " ANSI_RESET "Show exit code\n");
+    printf(ANSI_CYAN "  -a                 " ANSI_RESET "Show all metrics\n");
+    printf(ANSI_CYAN "  -py              * " ANSI_RESET "Specifies a .py programm\n");
+    printf(ANSI_CYAN "  --runs N           " ANSI_RESET "Run the program N times (default: 1)\n");
+    printf(ANSI_CYAN "  --timeout SEC      " ANSI_RESET "Kill the program after SEC seconds\n");
+    printf(ANSI_CYAN "  --timeout-m M      " ANSI_RESET "Kill the program after M minutes\n");
+    printf(ANSI_CYAN "  --dump csv         " ANSI_RESET "Dump results to benchmark_results.csv\n");
+    printf(ANSI_CYAN "  --dump json        " ANSI_RESET "Dump results to benchmark_results.json\n");
+    printf(ANSI_CYAN "  --help             " ANSI_RESET "Show this help message and exit\n");
+    printf(ANSI_CYAN "  --version          " ANSI_RESET "Show version and exit\n");
+    printf(ANSI_CYAN "  --dependencies     " ANSI_RESET "Show dependencies and exit\n");
+    printf(ANSI_CYAN "  --visual         * " ANSI_RESET "Dump JSON file and visualize according to forksta.conf\n");
+    printf(ANSI_CYAN "  --compare --with   " ANSI_RESET "Compares 2 program benchmarks\n");
+    printf("*see dependencies\n");
     printf("\n" ANSI_BOLD "Example:\n" ANSI_RESET);
-    printf("  forksta -a --runs 5 ./my_program arg1 arg2\n\n");
+    printf("  forksta -a --runs 5 ./my_program arg1 arg2\n");
+    printf("  forksta -r --visual --compare ./my_executable arg1 --with -py ./my_script arg1 arg2\n\n");
 
     printf(ANSI_YELLOW "Forksta – lightweight benchmarking for real programs.\n" ANSI_RESET);
 }

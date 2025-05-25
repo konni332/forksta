@@ -1,6 +1,3 @@
-//
-// Created by doepp on 25.05.2025.
-//
 #include "config.h"
 #include <ctype.h>
 #include <stdio.h>
