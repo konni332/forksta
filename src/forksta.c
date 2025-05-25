@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "logger.h"
 #include "runner.h"
 #include "ui.h"
 #include "utils.h"
@@ -46,7 +47,6 @@ int visualize(config_t *cfg) {
     return rc;
 }
 
-
 int main(int argc, char *argv[]) {
     config_t cfg;
     init_config(&cfg);
@@ -56,6 +56,16 @@ int main(int argc, char *argv[]) {
 
     if (cfg.visualize) {
         rc = visualize(&cfg);
+    }
+    if (cfg.visualize && cfg.clean_dump) {
+        if (clean_dump_file(cfg.target_dump_file) != 0) {
+            fprintf(stderr, "Error cleaning dump file\n");
+            rc = 1;
+        }
+        if (clean_dump_file(cfg.comparison_dump_file) != 0) {
+            fprintf(stderr, "Error cleaning dump file\n");
+            rc = 1;
+        }
     }
     destroy_config(&cfg);
     return rc;

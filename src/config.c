@@ -144,7 +144,7 @@ void init_config_ini(const char *config_path) {
         fprintf(stderr, "Error creating config file\n");
         exit(1);
     }
-    fprintf(fp, "[DEFAULT]\nruns=1\nwarmup=5\noutput=REAL_TIME\nvisual=TABLE\n");
+    fprintf(fp, "[DEFAULT]\nruns=1\nwarmup=5\noutput=REAL_TIME\nvisual=TABLE\ncleandump=FALSE\n");
     fflush(fp);
     fclose(fp);
 }
@@ -239,7 +239,17 @@ void parse_config_ini(config_t *cfg) {
                       fprintf(stderr, "Invalid visual value in .conf: %s\n", value);
                       exit(1);
                   }
-                } else {
+                } else if (strcmp(key, "cleandump") == 0) {
+                    if (strcmp(value, "TRUE") == 0) {
+                        cfg->clean_dump = 1;
+                    } else if (strcmp(value, "FALSE") == 0) {
+                        cfg->clean_dump = 0;
+                    } else {
+                        fprintf(stderr, "Invalid cleandump value in .conf: %s\n", value);
+                        exit(1);
+                    }
+                }
+                else {
                     fprintf(stderr, "Unknown key in .conf: %s\n", key);
                     exit(1);
                 }
@@ -267,5 +277,8 @@ void init_config(config_t *cfg) {
     cfg->timeout_ms = DEFAULT_TIMEOUT_MS;
     cfg->visualize = 0;
     cfg->visual_rep = NULL;
+    cfg->clean_dump = 0;
+    memset(cfg->target_dump_file, 0, sizeof(cfg->target_dump_file));
+    memset(cfg->comparison_dump_file, 0, sizeof(cfg->comparison_dump_file));
     parse_config_ini(cfg);
 }

@@ -6,7 +6,16 @@
 #include <stdio.h>
 #include "utils.h"
 #include <inttypes.h>
+#include <string.h>
 
+
+int clean_dump_file(const char *filename) {
+    if (!filename) return 0;
+    if (strlen(filename) == 0) return 0;
+    char path[1024];
+    snprintf(path, sizeof(path), "./%s", filename);
+    return remove(filename);
+}
 
 int dump_csv(const char *filename, config_t cfg, BenchmarkResult result, const BenchmarkRun *runs, int num_runs) {
     FILE *file = fopen(filename, "w");

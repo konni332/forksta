@@ -27,6 +27,7 @@ typedef struct config_t {
     char comparison_dump_file[1024];
     char *visual_rep;
     int warmup_runs;
+    int clean_dump;
 } config_t;
 
 void init_config(config_t *cfg);
