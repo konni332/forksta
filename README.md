@@ -101,7 +101,7 @@ Visualization is controlled via an optional **`forksta.conf`** file, which defin
 [DEFAULT]
 runs = 5
 warmup = 1
-style = heatmap
+visual = TABLE
 ```
 
 ---
