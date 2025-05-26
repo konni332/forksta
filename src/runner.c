@@ -29,8 +29,14 @@ int run_warmup(config_t *cfg, char *target, char **target_cmd) {
     if (cfg->warmup_runs <= 0) {
         return 0;
     }
-    if (!target || !target_cmd || !target_exists(target)) {
-        fprintf(stderr, "Major error in warm up runs.\nAborting...");
+    if (!target || !target_cmd) {
+        fprintf(stderr, "Major error in warm up runs. Target: NULL\nAborting...\n");
+        exit(1);
+    }
+
+    if (!target_exists(target))
+    {
+        fprintf(stderr, "Major error in warm up runs. Target: %s does not exist!\nAborting...\n", target);
         exit(1);
     }
 

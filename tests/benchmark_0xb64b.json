@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "target": "bench_sort.py",
+    "args": ["python3", "bench_sort.py", "bubble", "1000"],
+    "runs": 5,
+    "timeout_ms": 3000
+  },
+  "run_1": {
+    "real_time": 0.050399,
+    "sys_time": 0.021841,
+    "user_time": 0.220141,
+    "max_rss": 11480,
+    "exit_code": 0
+  },
+  "run_2": {
+    "real_time": 0.040285,
+    "sys_time": 0.024880,
+    "user_time": 0.256599,
+    "max_rss": 11480,
+    "exit_code": 0
+  },
+  "run_3": {
+    "real_time": 0.050430,
+    "sys_time": 0.028880,
+    "user_time": 0.292749,
+    "max_rss": 11672,
+    "exit_code": 0
+  },
+  "run_4": {
+    "real_time": 0.040321,
+    "sys_time": 0.031845,
+    "user_time": 0.328370,
+    "max_rss": 11672,
+    "exit_code": 0
+  },
+  "run_5": {
+    "real_time": 0.040320,
+    "sys_time": 0.032867,
+    "user_time": 0.366095,
+    "max_rss": 11672,
+    "exit_code": 0
+  },
+  "results": {
+    "real_time": {
+      "mean": 0.040321,
+      "median": 0.040321,
+      "min": 0.040285,
+      "min_run": 2,
+      "max": 0.050430,
+      "max_run": 3,
+      "stddev": 0.007137,
+      "cv": 17.700551
+    },
+    "sys_time": {
+      "mean": 0.028880,
+      "median": 0.028880,
+      "min": 0.021841,
+      "min_run": 1,
+      "max": 0.032867,
+      "max_run": 5,
+      "stddev": 0.004750,
+      "cv": 16.445994
+    },
+    "user_time": {
+      "mean": 0.292749,
+      "median": 0.292749,
+      "min": 0.220141,
+      "min_run": 1,
+      "max": 0.366095,
+      "max_run": 5,
+      "stddev": 0.057505,
+      "cv": 19.643059
+    },
+    "max_rss": {
+      "mean": 11672.000000,
+      "median": 11672.000000,
+      "min": 11480.000000,
+      "min_run": 1,
+      "max": 11672.000000,
+      "max_run": 3,
+      "stddev": 135.764502,
+      "cv": 1.163164
+    },
+    "exit_code": 0
+  }
+}

@@ -46,7 +46,7 @@ void get_config_path(char *path, size_t size) {
     if (!dir_exists(dir)) mkdir(dir, 0755);
     free(dir);
 
-    char *fullpath = expand_tilde("~/.config/forksta/forksta.conf")
+    char *fullpath = expand_tilde("~/.config/forksta/forksta.conf");
     snprintf(path, size, "%s", fullpath);
     free(fullpath);
 }

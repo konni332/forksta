@@ -1,0 +1,401 @@
+{
+  "meta": {
+    "target": "bench_sort.py",
+    "args": ["python3", "bench_sort.py", "bubble", "1000"],
+    "runs": 50,
+    "timeout_ms": 3000
+  },
+  "run_1": {
+    "real_time": 0.040309,
+    "sys_time": 0.020814,
+    "user_time": 0.214461,
+    "max_rss": 11472,
+    "exit_code": 0
+  },
+  "run_2": {
+    "real_time": 0.040376,
+    "sys_time": 0.022840,
+    "user_time": 0.251897,
+    "max_rss": 11472,
+    "exit_code": 0
+  },
+  "run_3": {
+    "real_time": 0.040365,
+    "sys_time": 0.025783,
+    "user_time": 0.285308,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_4": {
+    "real_time": 0.040332,
+    "sys_time": 0.029785,
+    "user_time": 0.318299,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_5": {
+    "real_time": 0.040364,
+    "sys_time": 0.032774,
+    "user_time": 0.351275,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_6": {
+    "real_time": 0.040400,
+    "sys_time": 0.038726,
+    "user_time": 0.385187,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_7": {
+    "real_time": 0.040369,
+    "sys_time": 0.040719,
+    "user_time": 0.420026,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_8": {
+    "real_time": 0.040334,
+    "sys_time": 0.044700,
+    "user_time": 0.455748,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_9": {
+    "real_time": 0.040312,
+    "sys_time": 0.049692,
+    "user_time": 0.488974,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_10": {
+    "real_time": 0.040436,
+    "sys_time": 0.052719,
+    "user_time": 0.525235,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_11": {
+    "real_time": 0.050444,
+    "sys_time": 0.055675,
+    "user_time": 0.563826,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_12": {
+    "real_time": 0.040428,
+    "sys_time": 0.056674,
+    "user_time": 0.602776,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_13": {
+    "real_time": 0.040344,
+    "sys_time": 0.059621,
+    "user_time": 0.635130,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_14": {
+    "real_time": 0.050385,
+    "sys_time": 0.061627,
+    "user_time": 0.675171,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_15": {
+    "real_time": 0.040366,
+    "sys_time": 0.065633,
+    "user_time": 0.711216,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_16": {
+    "real_time": 0.050414,
+    "sys_time": 0.070535,
+    "user_time": 0.747564,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_17": {
+    "real_time": 0.040414,
+    "sys_time": 0.074516,
+    "user_time": 0.780417,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_18": {
+    "real_time": 0.040347,
+    "sys_time": 0.075506,
+    "user_time": 0.815970,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_19": {
+    "real_time": 0.050516,
+    "sys_time": 0.079539,
+    "user_time": 0.852414,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_20": {
+    "real_time": 0.050414,
+    "sys_time": 0.082563,
+    "user_time": 0.889634,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_21": {
+    "real_time": 0.040619,
+    "sys_time": 0.088603,
+    "user_time": 0.923841,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_22": {
+    "real_time": 0.040349,
+    "sys_time": 0.090575,
+    "user_time": 0.960277,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_23": {
+    "real_time": 0.050371,
+    "sys_time": 0.092609,
+    "user_time": 0.999864,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_24": {
+    "real_time": 0.050396,
+    "sys_time": 0.094617,
+    "user_time": 1.038107,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_25": {
+    "real_time": 0.050411,
+    "sys_time": 0.097665,
+    "user_time": 1.075823,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_26": {
+    "real_time": 0.040354,
+    "sys_time": 0.098679,
+    "user_time": 1.113225,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_27": {
+    "real_time": 0.040351,
+    "sys_time": 0.102667,
+    "user_time": 1.146302,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_28": {
+    "real_time": 0.040328,
+    "sys_time": 0.105657,
+    "user_time": 1.183145,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_29": {
+    "real_time": 0.040382,
+    "sys_time": 0.111600,
+    "user_time": 1.212880,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_30": {
+    "real_time": 0.040351,
+    "sys_time": 0.114543,
+    "user_time": 1.249167,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_31": {
+    "real_time": 0.040493,
+    "sys_time": 0.119516,
+    "user_time": 1.282151,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_32": {
+    "real_time": 0.040432,
+    "sys_time": 0.122454,
+    "user_time": 1.318537,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_33": {
+    "real_time": 0.040348,
+    "sys_time": 0.126457,
+    "user_time": 1.351581,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_34": {
+    "real_time": 0.050469,
+    "sys_time": 0.133354,
+    "user_time": 1.385196,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_35": {
+    "real_time": 0.050425,
+    "sys_time": 0.138411,
+    "user_time": 1.421681,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_36": {
+    "real_time": 0.040427,
+    "sys_time": 0.141413,
+    "user_time": 1.458690,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_37": {
+    "real_time": 0.050501,
+    "sys_time": 0.143391,
+    "user_time": 1.498356,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_38": {
+    "real_time": 0.040406,
+    "sys_time": 0.145413,
+    "user_time": 1.531644,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_39": {
+    "real_time": 0.050364,
+    "sys_time": 0.150410,
+    "user_time": 1.567821,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_40": {
+    "real_time": 0.050496,
+    "sys_time": 0.152435,
+    "user_time": 1.606182,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_41": {
+    "real_time": 0.040472,
+    "sys_time": 0.159400,
+    "user_time": 1.639232,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_42": {
+    "real_time": 0.040339,
+    "sys_time": 0.161411,
+    "user_time": 1.675608,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_43": {
+    "real_time": 0.040372,
+    "sys_time": 0.163382,
+    "user_time": 1.711941,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_44": {
+    "real_time": 0.040328,
+    "sys_time": 0.165390,
+    "user_time": 1.749146,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_45": {
+    "real_time": 0.040338,
+    "sys_time": 0.167376,
+    "user_time": 1.784085,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_46": {
+    "real_time": 0.050389,
+    "sys_time": 0.170317,
+    "user_time": 1.822450,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_47": {
+    "real_time": 0.050335,
+    "sys_time": 0.172332,
+    "user_time": 1.861658,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_48": {
+    "real_time": 0.040333,
+    "sys_time": 0.175314,
+    "user_time": 1.896658,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_49": {
+    "real_time": 0.050374,
+    "sys_time": 0.182221,
+    "user_time": 1.932247,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "run_50": {
+    "real_time": 0.050422,
+    "sys_time": 0.183218,
+    "user_time": 1.971375,
+    "max_rss": 11648,
+    "exit_code": 0
+  },
+  "results": {
+    "real_time": {
+      "mean": 0.040410,
+      "median": 0.040410,
+      "min": 0.040309,
+      "min_run": 1,
+      "max": 0.050516,
+      "max_run": 19,
+      "stddev": 0.005896,
+      "cv": 14.590207
+    },
+    "sys_time": {
+      "mean": 0.098172,
+      "median": 0.098172,
+      "min": 0.020814,
+      "min_run": 1,
+      "max": 0.183218,
+      "max_run": 50,
+      "stddev": 0.049343,
+      "cv": 50.261360
+    },
+    "user_time": {
+      "mean": 1.094524,
+      "median": 1.094524,
+      "min": 0.214461,
+      "min_run": 1,
+      "max": 1.971375,
+      "max_run": 50,
+      "stddev": 0.522588,
+      "cv": 47.745646
+    },
+    "max_rss": {
+      "mean": 11648.000000,
+      "median": 11648.000000,
+      "min": 11472.000000,
+      "min_run": 1,
+      "max": 11648.000000,
+      "max_run": 3,
+      "stddev": 35.557370,
+      "cv": 0.305266
+    },
+    "exit_code": 0
+  }
+}
