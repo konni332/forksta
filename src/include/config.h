@@ -30,7 +30,15 @@ typedef struct config_t {
     int clean_dump;
 } config_t;
 
+/**
+ * @brief initializes config and parses forksta.conf
+ * @param cfg configurations
+ */
 void init_config(config_t *cfg);
+/**
+ * @brief frees necessary memory
+ * @param cfg configurations
+ */
 void destroy_config(config_t *cfg);
 
 #endif //CONFIG_H
