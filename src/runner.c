@@ -7,24 +7,6 @@
 #include "ui.h"
 
 
-#define DECLARE_BENCHMARK_RUN(prefix) BenchmarkRun prefix##run_result;
-
-#define DECLARE_AND_INIT_STATS(prefix) \
-BenchmarkStats prefix##stats_realtime, prefix##stats_sys_time, prefix##stats_user_time, prefix##stats_max_rss; \
-init_stats(&prefix##stats_realtime); \
-init_stats(&prefix##stats_sys_time); \
-init_stats(&prefix##stats_user_time); \
-init_stats(&prefix##stats_max_rss);
-
-
-#define DECLARE_BENCHMARKS(prefix) \
-BenchmarkRun prefix##run_result; \
-BenchmarkStats prefix##stats_realtime, prefix##stats_sys_time, prefix##stats_user_time, prefix##stats_max_rss; \
-init_stats(&prefix##stats_realtime); \
-init_stats(&prefix##stats_sys_time); \
-init_stats(&prefix##stats_user_time); \
-init_stats(&prefix##stats_max_rss);
-
 int run_warmup(config_t *cfg, char *target, char **target_cmd) {
     if (cfg->warmup_runs <= 0) {
         return 0;
@@ -296,23 +278,14 @@ int run_loop(config_t cfg, Benchmark *bm, char *target, char **target_cmd) {
     for (int i = 0; i < cfg.runs; ++i) {
         print_progress_bar(i, cfg.runs);
         bm->ran = run_target(target_cmd, &bm->runs_array[i], cfg.timeout_ms);
-        if (bm->ran != 0) {
-            char msg[512];
-            snprintf(msg, 512, "Error in run %d\n", i + 1);
-            print_error_below(msg);
-            bm->num_fails++;
-            if (bm->num_fails >= MAX_FAILS) {
-                goto cleanup;
-            }
-            continue;
-        }
+
         if (C_RUN.exit_code != 0) {
             char msg[512];
             snprintf(msg, 512, "Error in run %d with exit code: %d\n", i + 1, C_RUN.exit_code);
             print_error_below(msg);
             bm->num_fails++;
             if (bm->num_fails > 10) {
-                goto cleanup;
+                return -1;
             }
             continue;
         }
@@ -374,7 +347,6 @@ int run_loop(config_t cfg, Benchmark *bm, char *target, char **target_cmd) {
     printf("\n");
     printf("\n");
 
-cleanup:
     return bm->ran == 0 ? 0 : 1;
 }
 

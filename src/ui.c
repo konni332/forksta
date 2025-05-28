@@ -5,67 +5,6 @@
 #include "utils.h"
 #include "ui.h"
 
-void print_cv_result(const double cv) {
-    if (isnan(cv)) {
-        printf(ANSI_YELLOW "undefined (NaN)\n" ANSI_RESET);
-    } else if (isinf(cv)) {
-        printf(ANSI_YELLOW "undefined (inf)\n" ANSI_RESET);
-    } else if (cv <= 15.0){
-        printf(ANSI_GREEN "%.6f%%\n" ANSI_RESET, cv);
-    } else if (cv <= 30.0) {
-        printf(ANSI_YELLOW "%.6f%%\n" ANSI_RESET, cv);
-    } else {
-        printf(ANSI_RED "%.6f%%\n" ANSI_RESET, cv);
-    }
-}
-
-void print_benchmark_result(const BenchmarkResult result, const config_t cfg) {
-    printf("Final results:\n");
-    printf("----\n");
-    if (cfg.show_realtime || cfg.show_all) {
-        printf("    real time mean: %f\n", result.real_time_stats.mean);
-        printf("    real time median: %f\n", result.real_time_stats.median);
-        double cv_rt = (result.real_time_stats.stddev / result.real_time_stats.mean) * 100.0;
-        printf("    real time standard deviation: %.8f -> cv ~ ", result.real_time_stats.stddev);
-        print_cv_result(cv_rt);
-        printf("    real time max: %f -> run %d\n", result.real_time_stats.max, result.real_time_stats.max_run);
-        printf("    real time min: %f -> run %d\n", result.real_time_stats.min, result.real_time_stats.min_run);
-        printf("----\n");
-    }
-    if (cfg.show_cpu_times || cfg.show_all) {
-        printf("    user time mean: %.4f\n", result.user_time_stats.mean);
-        printf("    user time median: %.4f\n", result.user_time_stats.median);
-        double cv_us = (result.user_time_stats.stddev / result.user_time_stats.mean) * 100.0;
-        printf("    user time standard deviation: %.8f -> cv ~ ", result.user_time_stats.stddev);
-        print_cv_result(cv_us);
-        printf("    user time max: %.4f -> run %d\n", result.user_time_stats.max, result.user_time_stats.max_run);
-        printf("    user time min: %.4f -> run %d\n", result.user_time_stats.min, result.user_time_stats.min_run);
-        printf("----\n");
-        printf("    sys time mean: %.4f\n", result.sys_time_stats.mean);
-        printf("    sys time median: %.4f\n", result.sys_time_stats.median);
-        double cv_sys = (result.sys_time_stats.stddev / result.sys_time_stats.mean) * 100.0;
-        printf("    sys time standard deviation: %.8f -> cv ~ ", result.sys_time_stats.stddev);
-        print_cv_result(cv_sys);
-        printf("    sys time max: %.4f -> run %d\n", result.sys_time_stats.max, result.sys_time_stats.max_run);
-        printf("    sys time min: %.4f -> run %d\n", result.sys_time_stats.min, result.sys_time_stats.min_run);
-        printf("----\n");
-    }
-    if (cfg.show_max_rss || cfg.show_all) {
-        printf("    max rss mean: %0.f\n", result.max_rss_stats.mean);
-        printf("    max rss median: %0.f\n", result.max_rss_stats.median);
-        double cv_rss = (result.max_rss_stats.stddev / result.max_rss_stats.mean) * 100.0;
-        printf("    max rss standard deviation: %.2f -> cv ~ ", result.max_rss_stats.stddev);
-        print_cv_result(cv_rss);
-        printf("    max rss max: %0.f -> run %d\n", result.max_rss_stats.max, result.max_rss_stats.max_run);
-        printf("    max rss min: %0.f -> run %d\n", result.max_rss_stats.min, result.max_rss_stats.min_run);
-        printf("----\n");
-    }
-    if (cfg.show_exit_code || cfg.show_all) {
-        printf("    most recent exit code: %d\n", result.exit_code);
-        printf("----\n");
-    }
-}
-
 void print_progress_bar(int current, int total) {
     const int bar_width = 30;
     float progress = (float) current / total;
@@ -114,6 +53,20 @@ void print_help() {
     printf("  forksta -r --visual --compare ./my_executable arg1 --with -py ./my_script arg1 arg2\n\n");
 
     printf(ANSI_YELLOW "Forksta – lightweight benchmarking for real programs.\n" ANSI_RESET);
+}
+
+void print_cv_result(const double cv) {
+    if (isnan(cv)) {
+        printf(ANSI_YELLOW "undefined (NaN)\n" ANSI_RESET);
+    } else if (isinf(cv)) {
+        printf(ANSI_YELLOW "undefined (inf)\n" ANSI_RESET);
+    } else if (cv <= 15.0){
+        printf(ANSI_GREEN "%.6f%%\n" ANSI_RESET, cv);
+    } else if (cv <= 30.0) {
+        printf(ANSI_YELLOW "%.6f%%\n" ANSI_RESET, cv);
+    } else {
+        printf(ANSI_RED "%.6f%%\n" ANSI_RESET, cv);
+    }
 }
 
 void print_stat(const BenchmarkStats *stats, const char *metric, const int runs) {

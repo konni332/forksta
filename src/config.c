@@ -110,6 +110,7 @@ void get_config_path(char *path, size_t size) {
 #else
     #error "Unsuported OS"
 #endif
+
 void free_cmd_line(char **cmd_line) {
     if (!cmd_line) return;
     for (int i = 0; cmd_line[i] != NULL; i++) {
