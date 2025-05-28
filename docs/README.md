@@ -35,6 +35,12 @@ Without `--visual`, output is shown as a simple list in the terminal.
 
 ## 📦 Installation
 
+> Windows via Scoop:
+```
+scoop add bucket forksta-bucket https://github.com/konni332/forksta-bucket
+scoop install forksta
+```
+
 > Compile using any C compiler (GCC, Clang, MSVC).
 
 ```bash
