@@ -268,8 +268,13 @@ cleanup:
 #define STATS_REALTIME bm->result.real_time_stats
 #define RUNS bm->runs_array
 #define C_RUN bm->runs_array[i]
-#define MAX_FAILS 5
+#define MAX_FAILS_HARD cfg.failcap_hard
+#define MAX_FAILS_SOFT cfg.failcap_soft
 
+
+static inline int max_fails_soft(config_t cfg) {
+    return (int) (cfg.runs * MAX_FAILS_SOFT);
+}
 
 
 int run_loop(config_t cfg, Benchmark *bm, char *target, char **target_cmd) {
@@ -279,12 +284,14 @@ int run_loop(config_t cfg, Benchmark *bm, char *target, char **target_cmd) {
         print_progress_bar(i, cfg.runs);
         bm->ran = run_target(target_cmd, &bm->runs_array[i], cfg.timeout_ms);
 
-        if (C_RUN.exit_code != 0) {
+        if (C_RUN.exit_code != 0 || bm->ran != 0) {
             char msg[512];
             snprintf(msg, 512, "Error in run %d with exit code: %d\n", i + 1, C_RUN.exit_code);
             print_error_below(msg);
             bm->num_fails++;
-            if (bm->num_fails > 10) {
+            if (bm->num_fails >= MAX_FAILS_HARD || bm->num_fails >= max_fails_soft(cfg)) {
+                fprintf(stderr, "Too many fails: %d (Soft: %d / Hard: %d)!\nAborting...\n",
+                    bm->num_fails, max_fails_soft(cfg), MAX_FAILS_HARD);
                 return -1;
             }
             continue;

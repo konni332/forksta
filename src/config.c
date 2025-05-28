@@ -250,6 +250,20 @@ void parse_config_ini(config_t *cfg) {
                         exit(1);
                     }
                 }
+                else if (strcmp(key, "failcap_hard") == 0) {
+                    cfg->failcap_hard = atoi(value);
+                    if (cfg->failcap_hard < 1) {
+                        fprintf(stderr, "Invalid failcap_hard value in .conf: %s\n", value);
+                        cfg->failcap_hard = 10;
+                    }
+                }
+                else if (strcmp(key, "failcap_soft") == 0) {
+                    cfg->failcap_soft = atof(value);
+                    if (cfg->failcap_soft < 0.0 || cfg->failcap_soft > 1.0) {
+                        fprintf(stderr, "Invalid failcap_soft value in .conf: %s\n", value);
+                        cfg->failcap_soft = 0.2;
+                    }
+                }
                 else {
                     fprintf(stderr, "Unknown key in .conf: %s\n", key);
                     exit(1);
@@ -279,6 +293,8 @@ void init_config(config_t *cfg) {
     cfg->visualize = 0;
     cfg->visual_rep = NULL;
     cfg->clean_dump = 0;
+    cfg->failcap_hard = 10;
+    cfg->failcap_soft = 0.2;
     memset(cfg->target_dump_file, 0, sizeof(cfg->target_dump_file));
     memset(cfg->comparison_dump_file, 0, sizeof(cfg->comparison_dump_file));
     parse_config_ini(cfg);

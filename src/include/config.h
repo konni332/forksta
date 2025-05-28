@@ -28,6 +28,8 @@ typedef struct config_t {
     char *visual_rep;
     int warmup_runs;
     int clean_dump;
+    int failcap_hard;
+    double failcap_soft;
 } config_t;
 
 /**
