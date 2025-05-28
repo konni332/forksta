@@ -36,4 +36,11 @@ void print_dependencies(void);
  * @param runs number of runs
  */
 void print_stat(const BenchmarkStats *stats, const char *metric, const int runs);
+
+/**
+ *
+ * @param args array of arguments
+ * @param argc number of arguments
+ */
+void print_args(char **args, int argc);
 #endif //UI_H

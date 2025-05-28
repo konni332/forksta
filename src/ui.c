@@ -98,3 +98,9 @@ void print_dependencies(void) {
     printf(ANSI_GREEN "            pip install colorama\n" ANSI_RESET);
 }
 
+void print_args(char **argv, int argc) {
+    for (int i = 0; i < argc; i++) {
+        printf(ANSI_CYAN "%s " ANSI_RESET, argv[i]);
+    }
+}
+

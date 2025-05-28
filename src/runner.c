@@ -216,29 +216,13 @@ int run_comparison(config_t *cfg) {
             goto cleanup;
         }
     }
-    printf(ANSI_BOLD ANSI_CYAN "Target: %s\n" ANSI_RESET, cfg->target);
-    if (cfg->show_realtime || cfg->show_all) {
-        print_stat(&target_bm.result.real_time_stats, "Real Time (s)", target_bm.valid_runs);
-    }
-    if (cfg->show_cpu_times || cfg->show_all) {
-        print_stat(&target_bm.result.sys_time_stats, "System Time (s)", target_bm.valid_runs);
-        print_stat(&target_bm.result.user_time_stats, "User Time (s)", target_bm.valid_runs);
-    }
-    if (cfg->show_max_rss || cfg->show_all) {
-        print_stat(&target_bm.result.max_rss_stats, "Max RSS (kB)", target_bm.valid_runs);
-    }
+    printf(ANSI_BOLD ANSI_CYAN "Compare: " ANSI_RESET);
+    print_args(cfg->target_cmd, cfg->target_args_count);
+    printf("\n");
+    printf(ANSI_BOLD ANSI_CYAN "With: " ANSI_RESET);
+    print_args(cfg->comparison_cmd, cfg->comparison_args_count);
+    printf("\n\n");
 
-    printf(ANSI_BOLD ANSI_CYAN "Comparison Target: %s\n" ANSI_RESET, cfg->comparison);
-    if (cfg->show_realtime || cfg->show_all) {
-        print_stat(&comparison_bm.result.real_time_stats, "Real Time (s)", comparison_bm.valid_runs);
-    }
-    if (cfg->show_cpu_times || cfg->show_all) {
-        print_stat(&comparison_bm.result.sys_time_stats, "System Time (s)", comparison_bm.valid_runs);
-        print_stat(&comparison_bm.result.user_time_stats, "User Time (s)", comparison_bm.valid_runs);
-    }
-    if (cfg->show_max_rss || cfg->show_all) {
-        print_stat(&comparison_bm.result.max_rss_stats, "Max RSS (kB)", comparison_bm.valid_runs);
-    }
     if (!cfg->visualize) {
         if (cfg->show_realtime || cfg->show_all) {
             print_stat(&target_bm.result.real_time_stats, "Real Time (s)", target_bm.valid_runs);
