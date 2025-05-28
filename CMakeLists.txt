@@ -8,3 +8,5 @@ add_executable(forksta src/forksta.c src/logger.c src/metrics.c src/runner.c src
 target_include_directories(forksta PRIVATE src/include/)
 
 target_link_libraries(forksta m)
+
+set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG")

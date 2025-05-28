@@ -6,7 +6,7 @@
 #include "config.h"
 
 #define DEFAULT_TIMEOUT_MS 3000
-#define VERSION "1.4.0"
+#define VERSION "1.0.0"
 #define ANSI_RESET   "\x1b[0m"
 #define ANSI_BOLD    "\x1b[1m"
 #define ANSI_CYAN    "\x1b[36m"

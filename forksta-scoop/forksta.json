@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "description": "A light weight benchmarking tool for executables and python scripts, inside the terminal",
+  "homepage": "https://github.com/konni332/forksta",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/konni332/forksta/releases/download/v1.0.0/forksta-windows-x64.zip",
+      "hash": ""
+    }
+  },
+  "bin": "forksta.exe"
+}

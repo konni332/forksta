@@ -17,6 +17,7 @@
 #endif
 
 int visualize(config_t *cfg) {
+    printf("\n\n");
     char visual_cmd[2048];
     char forksta_path[512];
     get_executable_path(forksta_path, sizeof(forksta_path));
@@ -44,6 +45,20 @@ int visualize(config_t *cfg) {
         fprintf(stderr, "Possibly missing dependencies! Try \"forksta --dependencies\" for details");
         fprintf(stderr, "\n");
     }
+    if (!cfg->comparison || !cfg->comparison_cmd || strlen(cfg->comparison_dump_file) < 1) return rc;
+
+    snprintf(visual_cmd, sizeof(visual_cmd), "python3 %s/visualize.py --mode \"%s\" --file \"%s\" %s",
+        forksta_path, cfg->visual_rep, cfg->comparison_dump_file, flag);
+    rc = system(visual_cmd);
+    printf("\n\n");
+    if (rc != 0) {
+        fprintf(stderr, "\n\n");
+        fprintf(stderr, "Error while running visualizer: %d\n", rc);
+        fprintf(stderr, "Command: %s\n", visual_cmd);
+        fprintf(stderr, "Possibly missing dependencies! Try \"forksta --dependencies\" for details");
+        fprintf(stderr, "\n");
+    }
+    printf("\n\n");
     return rc;
 }
 
