@@ -27,4 +27,7 @@ Thumbs.db
 
 # === Test directory ===
 test/*
+
+# === Rusty Forge ===
 forge
+RustyForge.toml
